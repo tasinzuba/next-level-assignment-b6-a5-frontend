@@ -1,65 +1,93 @@
-import Image from "next/image";
+import Link from 'next/link';
+import api from '@/lib/api';
+import { Movie } from '@/types';
+import MovieCard from '@/components/MovieCard';
 
-export default function Home() {
+async function getFeaturedMovies(): Promise<Movie[]> {
+  try {
+    const res = await api.get('/movies/featured');
+    return res.data.data || [];
+  } catch {
+    return [];
+  }
+}
+
+export default async function HomePage() {
+  const featuredMovies = await getFeaturedMovies();
+
   return (
-    <div className="flex min-h-screen items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex min-h-screen w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the page.tsx file.
+    <div>
+      {/* Hero */}
+      <section className="relative bg-gradient-to-br from-gray-900 via-gray-800 to-gray-950 py-24 px-4 text-center">
+        <div className="max-w-3xl mx-auto">
+          <h1 className="text-5xl md:text-6xl font-extrabold text-white mb-4 leading-tight">
+            Discover & Review <span className="text-yellow-400">Amazing Movies</span>
           </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Learning
-            </a>{" "}
-            center.
+          <p className="text-gray-300 text-lg mb-8">
+            Rate movies, write reviews, build your watchlist and connect with fellow movie lovers.
           </p>
+          <div className="flex gap-4 justify-center flex-wrap">
+            <Link
+              href="/movies"
+              className="bg-yellow-500 hover:bg-yellow-600 text-black font-bold px-8 py-3 rounded-lg text-lg transition"
+            >
+              Browse Movies
+            </Link>
+            <Link
+              href="/register"
+              className="border border-yellow-400 text-yellow-400 hover:bg-yellow-400 hover:text-black font-bold px-8 py-3 rounded-lg text-lg transition"
+            >
+              Join Free
+            </Link>
+          </div>
         </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-          <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={16}
-            />
-            Deploy Now
-          </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
+      </section>
+
+      {/* Stats */}
+      <section className="bg-gray-900 py-10">
+        <div className="max-w-5xl mx-auto px-4 grid grid-cols-2 md:grid-cols-4 gap-6 text-center">
+          {[
+            { label: 'Movies', value: '500+' },
+            { label: 'Reviews', value: '2K+' },
+            { label: 'Members', value: '1K+' },
+            { label: 'Genres', value: '20+' },
+          ].map((s) => (
+            <div key={s.label}>
+              <p className="text-3xl font-extrabold text-yellow-400">{s.value}</p>
+              <p className="text-gray-400 mt-1">{s.label}</p>
+            </div>
+          ))}
         </div>
-      </main>
+      </section>
+
+      {/* Featured Movies */}
+      <section className="max-w-7xl mx-auto px-4 py-16">
+        <div className="flex items-center justify-between mb-8">
+          <h2 className="text-3xl font-bold text-white">Featured Movies</h2>
+          <Link href="/movies" className="text-yellow-400 hover:underline">View All →</Link>
+        </div>
+        {featuredMovies.length > 0 ? (
+          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-6">
+            {featuredMovies.map((movie) => (
+              <MovieCard key={movie.id} movie={movie} />
+            ))}
+          </div>
+        ) : (
+          <p className="text-gray-400 text-center py-12">No featured movies yet.</p>
+        )}
+      </section>
+
+      {/* CTA */}
+      <section className="bg-yellow-500 py-16 text-center px-4">
+        <h2 className="text-3xl font-bold text-black mb-3">Ready to dive in?</h2>
+        <p className="text-gray-900 mb-6">Create your free account and start reviewing today.</p>
+        <Link
+          href="/register"
+          className="bg-black text-white font-bold px-8 py-3 rounded-lg text-lg hover:bg-gray-800 transition"
+        >
+          Get Started
+        </Link>
+      </section>
     </div>
   );
 }
