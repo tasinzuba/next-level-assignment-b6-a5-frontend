@@ -18,7 +18,10 @@ export default function HeroSlider({ movies }: { movies: Movie[] }) {
   useEffect(() => {
     if (movies.length < 2) return;
     startAuto();
-    return () => { if (intervalRef.current) clearInterval(intervalRef.current); };
+    return () => {
+      if (intervalRef.current) clearInterval(intervalRef.current);
+    };
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [movies.length]);
 
   if (!movies.length) return null;

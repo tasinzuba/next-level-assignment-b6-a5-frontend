@@ -16,8 +16,8 @@ async function getFeaturedMovies(): Promise<Movie[]> {
 
 async function getHeroMovies(): Promise<Movie[]> {
   try {
-    const res = await api.get('/movies?limit=6&sort=top');
-    return res.data.data || [];
+    const res = await api.get('/movies/featured');
+    return (res.data.data || []).slice(0, 6);
   } catch {
     return [];
   }
@@ -25,7 +25,7 @@ async function getHeroMovies(): Promise<Movie[]> {
 
 async function getNewlyAdded(): Promise<Movie[]> {
   try {
-    const res = await api.get('/movies?limit=8&sort=newest');
+    const res = await api.get('/movies?limit=8&sort=createdAt&order=desc');
     return res.data.data || [];
   } catch {
     return [];
@@ -34,7 +34,7 @@ async function getNewlyAdded(): Promise<Movie[]> {
 
 async function getTopRated(): Promise<Movie[]> {
   try {
-    const res = await api.get('/movies?limit=8&sort=top');
+    const res = await api.get('/movies?limit=8&sort=releaseYear&order=desc');
     return res.data.data || [];
   } catch {
     return [];
