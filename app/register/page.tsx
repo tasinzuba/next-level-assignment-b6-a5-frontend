@@ -22,6 +22,7 @@ export default function RegisterPage() {
       setAuth(user, token);
       toast.success('Registration successful!');
       router.push('/');
+      router.refresh();
     } catch (err: unknown) {
       const error = err as { response?: { data?: { message?: string } } };
       toast.error(error.response?.data?.message || 'Registration failed');

@@ -22,6 +22,7 @@ export default function LoginPage() {
       setAuth(user, token);
       toast.success('Login successful!');
       router.push(user.role === 'ADMIN' ? '/admin' : '/');
+      router.refresh();
     } catch (err: unknown) {
       const error = err as { response?: { data?: { message?: string } } };
       toast.error(error.response?.data?.message || 'Login failed');
