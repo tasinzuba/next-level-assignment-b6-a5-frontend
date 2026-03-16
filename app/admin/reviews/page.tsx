@@ -7,12 +7,21 @@ import api from '@/lib/api';
 import { useAuthStore } from '@/store/authStore';
 import { Review } from '@/types';
 
+const FILTERS = ['PENDING', 'APPROVED', 'REJECTED'] as const;
+type FilterType = typeof FILTERS[number];
+
+const filterStyle: Record<FilterType, string> = {
+  PENDING: 'bg-yellow-500/20 text-yellow-400 border-yellow-500/30',
+  APPROVED: 'bg-emerald-500/20 text-emerald-400 border-emerald-500/30',
+  REJECTED: 'bg-red-500/20 text-red-400 border-red-500/30',
+};
+
 export default function AdminReviewsPage() {
   const router = useRouter();
   const { user } = useAuthStore();
   const [reviews, setReviews] = useState<Review[]>([]);
   const [loading, setLoading] = useState(true);
-  const [filter, setFilter] = useState('PENDING');
+  const [filter, setFilter] = useState<FilterType>('PENDING');
 
   useEffect(() => {
     if (!user || user.role !== 'ADMIN') { router.push('/'); return; }
@@ -29,26 +38,43 @@ export default function AdminReviewsPage() {
     }
   };
 
-  const handleApprove = async (id: string, status: 'APPROVED' | 'REJECTED') => {
+  const handleModerate = async (id: string, status: 'APPROVED' | 'REJECTED') => {
     try {
       await api.put(`/reviews/${id}/approve`, { status });
-      toast.success(`Review ${status.toLowerCase()}!`);
+      toast.success(`Review ${status === 'APPROVED' ? 'approved' : 'rejected'}!`);
       setReviews(reviews.filter((r) => r.id !== id));
     } catch {
       toast.error('Failed to update review');
     }
   };
 
-  return (
-    <div className="max-w-5xl mx-auto px-4 py-10">
-      <h1 className="text-3xl font-bold text-white mb-8">Review Moderation</h1>
+  const renderStars = (rating: number) => {
+    return (
+      <span className="text-yellow-400 tracking-tight">
+        {'★'.repeat(rating)}
+        <span className="text-zinc-700">{'★'.repeat(10 - rating)}</span>
+      </span>
+    );
+  };
 
-      <div className="flex gap-3 mb-6">
-        {['PENDING', 'APPROVED', 'REJECTED'].map((s) => (
+  return (
+    <div className="p-6 lg:p-10 max-w-5xl mx-auto">
+      <div className="mb-8">
+        <h1 className="text-3xl font-bold text-white">Review Moderation</h1>
+        <p className="text-gray-400 text-sm mt-1">Manage user-submitted reviews</p>
+      </div>
+
+      {/* Filter tabs */}
+      <div className="flex gap-2 mb-6 bg-zinc-900 p-1 rounded-xl w-fit">
+        {FILTERS.map((s) => (
           <button
             key={s}
             onClick={() => setFilter(s)}
-            className={`px-4 py-2 rounded-lg text-sm font-semibold transition ${filter === s ? 'bg-red-600 text-black' : 'bg-zinc-900 text-gray-300 hover:bg-zinc-800'}`}
+            className={`px-5 py-2 rounded-lg text-sm font-semibold transition ${
+              filter === s
+                ? 'bg-red-600 text-white shadow'
+                : 'text-gray-400 hover:text-white'
+            }`}
           >
             {s}
           </button>
@@ -57,33 +83,57 @@ export default function AdminReviewsPage() {
 
       {loading ? (
         <div className="space-y-4">
-          {Array.from({ length: 4 }).map((_, i) => <div key={i} className="bg-zinc-900 h-28 rounded-xl animate-pulse" />)}
+          {Array.from({ length: 4 }).map((_, i) => <div key={i} className="bg-zinc-900 h-32 rounded-xl animate-pulse" />)}
         </div>
       ) : reviews.length === 0 ? (
-        <p className="text-gray-400 text-center py-12">No {filter.toLowerCase()} reviews.</p>
+        <div className="text-center py-16">
+          <p className="text-4xl mb-3">📭</p>
+          <p className="text-gray-400">No {filter.toLowerCase()} reviews found.</p>
+        </div>
       ) : (
         <div className="space-y-4">
           {reviews.map((review) => (
-            <div key={review.id} className="bg-zinc-950 rounded-xl p-5">
+            <div key={review.id} className="bg-zinc-950 border border-zinc-800 rounded-xl p-5 hover:border-zinc-700 transition">
               <div className="flex items-start justify-between gap-4 mb-3">
                 <div className="flex-1 min-w-0">
-                  <h3 className="font-bold text-white">{review.title}</h3>
-                  <p className="text-gray-400 text-sm mt-0.5">
-                    by <span className="text-gray-300">{review.user?.name}</span> •{' '}
-                    <span className="text-red-400">{review.movie?.title}</span> •{' '}
-                    {'⭐'.repeat(review.rating)}
+                  <div className="flex items-center gap-2 flex-wrap mb-1">
+                    <h3 className="font-bold text-white">{review.title}</h3>
+                    <span className={`text-xs px-2 py-0.5 rounded-full border font-medium ${filterStyle[review.status as FilterType] || ''}`}>
+                      {review.status}
+                    </span>
+                    {review.spoiler && (
+                      <span className="text-xs px-2 py-0.5 rounded-full bg-orange-500/20 text-orange-400 border border-orange-500/30 font-medium">
+                        Spoiler
+                      </span>
+                    )}
+                  </div>
+                  <p className="text-gray-400 text-sm">
+                    by <span className="text-gray-300 font-medium">{review.user?.name}</span>
+                    {' · '}
+                    <span className="text-red-400">{review.movie?.title}</span>
                   </p>
+                  <div className="mt-1 text-sm">{renderStars(review.rating)} <span className="text-gray-500 ml-1">{review.rating}/10</span></div>
                 </div>
-                {review.spoiler && <span className="text-red-400 text-xs bg-red-900/30 px-2 py-1 rounded flex-shrink-0">Spoiler</span>}
+                <p className="text-gray-500 text-xs whitespace-nowrap">{new Date(review.createdAt).toLocaleDateString()}</p>
               </div>
-              <p className="text-gray-300 text-sm leading-relaxed line-clamp-3">{review.body}</p>
-              {filter === 'PENDING' && (
+
+              <p className="text-gray-300 text-sm leading-relaxed line-clamp-3 bg-zinc-900 rounded-lg p-3 border border-zinc-800">
+                {review.body}
+              </p>
+
+              {review.status === 'PENDING' && (
                 <div className="flex gap-3 mt-4">
-                  <button onClick={() => handleApprove(review.id, 'APPROVED')} className="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded text-sm font-semibold transition">
-                    Approve
+                  <button
+                    onClick={() => handleModerate(review.id, 'APPROVED')}
+                    className="bg-emerald-600 hover:bg-emerald-500 text-white px-5 py-2 rounded-lg text-sm font-semibold transition"
+                  >
+                    ✓ Approve
                   </button>
-                  <button onClick={() => handleApprove(review.id, 'REJECTED')} className="bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded text-sm font-semibold transition">
-                    Reject
+                  <button
+                    onClick={() => handleModerate(review.id, 'REJECTED')}
+                    className="bg-zinc-700 hover:bg-zinc-600 text-white px-5 py-2 rounded-lg text-sm font-semibold transition"
+                  >
+                    ✕ Reject
                   </button>
                 </div>
               )}
