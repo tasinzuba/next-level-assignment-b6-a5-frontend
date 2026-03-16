@@ -34,7 +34,7 @@ export default function RegisterPage() {
     <div className="min-h-screen flex items-center justify-center px-4 bg-gray-950">
       <div className="w-full max-w-md bg-zinc-950 rounded-xl p-8 shadow-2xl">
         <h1 className="text-3xl font-bold text-white mb-2 text-center">Create Account</h1>
-        <p className="text-gray-400 text-center mb-8">Join MoviePortal today</p>
+        <p className="text-gray-400 text-center mb-8">Join Recape Movie today</p>
 
         <form onSubmit={handleSubmit} className="space-y-5">
           <div>

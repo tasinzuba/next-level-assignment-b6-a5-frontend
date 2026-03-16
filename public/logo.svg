@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" fill="none">
+  <!-- Film reel background circle -->
+  <circle cx="100" cy="100" r="90" fill="#1a0000" stroke="#dc2626" stroke-width="3"/>
+
+  <!-- Play button triangle -->
+  <polygon points="75,60 75,140 155,100" fill="#dc2626"/>
+
+  <!-- Film strip lines left -->
+  <rect x="30" y="70" width="8" height="12" rx="2" fill="#dc2626" opacity="0.7"/>
+  <rect x="30" y="90" width="8" height="12" rx="2" fill="#dc2626" opacity="0.7"/>
+  <rect x="30" y="110" width="8" height="12" rx="2" fill="#dc2626" opacity="0.7"/>
+  <rect x="30" y="130" width="8" height="12" rx="2" fill="#dc2626" opacity="0.5"/>
+
+  <!-- Film strip lines right -->
+  <rect x="162" y="70" width="8" height="12" rx="2" fill="#dc2626" opacity="0.7"/>
+  <rect x="162" y="90" width="8" height="12" rx="2" fill="#dc2626" opacity="0.7"/>
+  <rect x="162" y="110" width="8" height="12" rx="2" fill="#dc2626" opacity="0.7"/>
+  <rect x="162" y="130" width="8" height="12" rx="2" fill="#dc2626" opacity="0.5"/>
+</svg>

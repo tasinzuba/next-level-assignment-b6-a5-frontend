@@ -200,7 +200,7 @@ export default async function HomePage() {
 
       {/* Features */}
       <section className="max-w-5xl mx-auto px-4 py-16">
-        <h2 className="text-3xl font-bold text-white text-center mb-12">Why MoviePortal?</h2>
+        <h2 className="text-3xl font-bold text-white text-center mb-12">Why <span className="text-red-500">Recape</span> Movie?</h2>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
           {[
             { icon: '🎬', title: 'Huge Library', desc: 'Thousands of movies and series across all genres, from classics to latest releases.' },

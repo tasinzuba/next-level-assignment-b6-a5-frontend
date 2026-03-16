@@ -8,7 +8,7 @@ import { Toaster } from 'react-hot-toast';
 const geist = Geist({ subsets: ['latin'] });
 
 export const metadata: Metadata = {
-  title: 'MoviePortal - Rate, Review & Discover Movies',
+  title: 'Recape Movie - Rate, Review & Discover Movies',
   description: 'Your ultimate destination for movie and series reviews, ratings, and streaming.',
 };
 

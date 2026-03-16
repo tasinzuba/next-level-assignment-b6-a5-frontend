@@ -3,9 +3,9 @@ import Link from 'next/link';
 export default function AboutPage() {
   return (
     <div className="max-w-3xl mx-auto px-4 py-16">
-      <h1 className="text-4xl font-bold text-white mb-6">About MoviePortal</h1>
+      <h1 className="text-4xl font-bold text-white mb-6">About <span className="text-red-500">Recape</span> Movie</h1>
       <p className="text-gray-300 leading-relaxed mb-4">
-        MoviePortal is your ultimate destination for discovering, rating, and reviewing movies and TV series.
+        Recape Movie is your ultimate destination for discovering, rating, and reviewing movies and TV series.
         Our platform connects passionate movie lovers who want to share their opinions and discover new content.
       </p>
       <p className="text-gray-300 leading-relaxed mb-8">
