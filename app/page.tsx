@@ -2,6 +2,7 @@ import Link from 'next/link';
 import api from '@/lib/api';
 import { Movie } from '@/types';
 import MovieCard from '@/components/MovieCard';
+import MovieCarousel from '@/components/MovieCarousel';
 
 async function getFeaturedMovies(): Promise<Movie[]> {
   try {
@@ -14,7 +15,7 @@ async function getFeaturedMovies(): Promise<Movie[]> {
 
 async function getNewlyAdded(): Promise<Movie[]> {
   try {
-    const res = await api.get('/movies?limit=5&sort=newest');
+    const res = await api.get('/movies?limit=8&sort=newest');
     return res.data.data || [];
   } catch {
     return [];
@@ -23,7 +24,7 @@ async function getNewlyAdded(): Promise<Movie[]> {
 
 async function getTopRated(): Promise<Movie[]> {
   try {
-    const res = await api.get('/movies?limit=5&sort=top');
+    const res = await api.get('/movies?limit=8&sort=top');
     return res.data.data || [];
   } catch {
     return [];
@@ -107,11 +108,7 @@ export default async function HomePage() {
             <Link href="/movies" className="text-red-400 hover:underline text-sm">View All →</Link>
           </div>
           {topRated.length > 0 ? (
-            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-6">
-              {topRated.map((movie) => (
-                <MovieCard key={movie.id} movie={movie} />
-              ))}
-            </div>
+            <MovieCarousel movies={topRated} />
           ) : (
             <p className="text-gray-600 text-center py-12">No movies yet.</p>
           )}
@@ -125,11 +122,7 @@ export default async function HomePage() {
           <Link href="/movies" className="text-red-400 hover:underline text-sm">View All →</Link>
         </div>
         {newlyAdded.length > 0 ? (
-          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-6">
-            {newlyAdded.map((movie) => (
-              <MovieCard key={movie.id} movie={movie} />
-            ))}
-          </div>
+          <MovieCarousel movies={newlyAdded} />
         ) : (
           <p className="text-gray-600 text-center py-12">No movies yet.</p>
         )}
