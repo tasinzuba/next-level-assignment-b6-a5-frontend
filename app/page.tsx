@@ -3,10 +3,20 @@ import api from '@/lib/api';
 import { Movie } from '@/types';
 import MovieCard from '@/components/MovieCard';
 import MovieCarousel from '@/components/MovieCarousel';
+import HeroSlider from '@/components/HeroSlider';
 
 async function getFeaturedMovies(): Promise<Movie[]> {
   try {
     const res = await api.get('/movies/featured');
+    return res.data.data || [];
+  } catch {
+    return [];
+  }
+}
+
+async function getHeroMovies(): Promise<Movie[]> {
+  try {
+    const res = await api.get('/movies?limit=6&sort=top');
     return res.data.data || [];
   } catch {
     return [];
@@ -32,39 +42,17 @@ async function getTopRated(): Promise<Movie[]> {
 }
 
 export default async function HomePage() {
-  const [featuredMovies, newlyAdded, topRated] = await Promise.all([
+  const [featuredMovies, newlyAdded, topRated, heroMovies] = await Promise.all([
     getFeaturedMovies(),
     getNewlyAdded(),
     getTopRated(),
+    getHeroMovies(),
   ]);
 
   return (
     <div>
-      {/* Hero */}
-      <section className="relative bg-gradient-to-br from-black via-red-950/40 to-black py-24 px-4 text-center border-b border-red-900/30">
-        <div className="max-w-3xl mx-auto">
-          <h1 className="text-5xl md:text-6xl font-extrabold text-white mb-4 leading-tight">
-            Discover & Review <span className="text-red-500">Amazing Movies</span>
-          </h1>
-          <p className="text-gray-400 text-lg mb-8">
-            Rate movies, write reviews, build your watchlist and connect with fellow movie lovers.
-          </p>
-          <div className="flex gap-4 justify-center flex-wrap">
-            <Link
-              href="/movies"
-              className="bg-red-600 hover:bg-red-500 text-white font-bold px-8 py-3 rounded-lg text-lg transition"
-            >
-              Browse Movies
-            </Link>
-            <Link
-              href="/register"
-              className="border border-red-600 text-red-400 hover:bg-red-600 hover:text-white font-bold px-8 py-3 rounded-lg text-lg transition"
-            >
-              Join Free
-            </Link>
-          </div>
-        </div>
-      </section>
+      {/* Hero Slider */}
+      <HeroSlider movies={heroMovies} />
 
       {/* Stats */}
       <section className="bg-zinc-950 border-b border-red-900/20 py-10">
