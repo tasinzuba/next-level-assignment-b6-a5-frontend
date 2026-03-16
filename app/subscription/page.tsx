@@ -21,8 +21,8 @@ const PLANS = [
     name: 'Standard',
     price: '$9.99/mo',
     features: ['Everything in Basic', 'Access to premium movies', '1080p streaming', 'Priority support'],
-    color: 'border-yellow-500',
-    btnColor: 'bg-yellow-500 hover:bg-yellow-600',
+    color: 'border-red-600',
+    btnColor: 'bg-red-600 hover:bg-red-700',
     popular: true,
   },
   {
@@ -111,12 +111,12 @@ export default function SubscriptionPage() {
         {PLANS.map((plan) => (
           <div key={plan.id} className={`bg-gray-900 border-2 ${plan.color} rounded-xl p-7 flex flex-col relative`}>
             {plan.popular && (
-              <span className="absolute -top-3 left-1/2 -translate-x-1/2 bg-yellow-500 text-black text-xs font-bold px-3 py-1 rounded-full">
+              <span className="absolute -top-3 left-1/2 -translate-x-1/2 bg-red-600 text-black text-xs font-bold px-3 py-1 rounded-full">
                 Most Popular
               </span>
             )}
             <h2 className="text-2xl font-bold text-white">{plan.name}</h2>
-            <p className="text-3xl font-extrabold text-yellow-400 mt-2 mb-5">{plan.price}</p>
+            <p className="text-3xl font-extrabold text-red-400 mt-2 mb-5">{plan.price}</p>
             <ul className="space-y-3 flex-1 mb-6">
               {plan.features.map((f) => (
                 <li key={f} className="flex items-start gap-2 text-gray-300 text-sm">

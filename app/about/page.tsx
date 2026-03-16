@@ -18,7 +18,7 @@ export default function AboutPage() {
           { title: 'Personal Watchlist', desc: 'Save movies you want to watch later', icon: '📋' },
           { title: 'Premium Content', desc: 'Access exclusive premium movies with subscription', icon: '💎' },
         ].map((f) => (
-          <div key={f.title} className="bg-gray-900 rounded-xl p-5 text-center">
+          <div key={f.title} className="bg-zinc-950 rounded-xl p-5 text-center">
             <p className="text-3xl mb-3">{f.icon}</p>
             <h3 className="font-bold text-white mb-1">{f.title}</h3>
             <p className="text-gray-400 text-sm">{f.desc}</p>
@@ -26,7 +26,7 @@ export default function AboutPage() {
         ))}
       </div>
       <div className="text-center">
-        <Link href="/register" className="bg-yellow-500 hover:bg-yellow-600 text-black font-bold px-8 py-3 rounded-lg transition">
+        <Link href="/register" className="bg-red-600 hover:bg-red-700 text-black font-bold px-8 py-3 rounded-lg transition">
           Join the Community
         </Link>
       </div>

@@ -43,12 +43,12 @@ export default function AdminUsersPage() {
 
       {loading ? (
         <div className="animate-pulse space-y-3">
-          {Array.from({ length: 6 }).map((_, i) => <div key={i} className="bg-gray-800 h-14 rounded" />)}
+          {Array.from({ length: 6 }).map((_, i) => <div key={i} className="bg-zinc-900 h-14 rounded" />)}
         </div>
       ) : (
-        <div className="bg-gray-900 rounded-xl overflow-hidden">
+        <div className="bg-zinc-950 rounded-xl overflow-hidden">
           <table className="w-full">
-            <thead className="bg-gray-800">
+            <thead className="bg-zinc-900">
               <tr>
                 <th className="text-left px-4 py-3 text-gray-300 text-sm">User</th>
                 <th className="text-left px-4 py-3 text-gray-300 text-sm hidden md:table-cell">Joined</th>
@@ -58,7 +58,7 @@ export default function AdminUsersPage() {
             </thead>
             <tbody>
               {users.map((u) => (
-                <tr key={u.id} className="border-t border-gray-800 hover:bg-gray-800/50 transition">
+                <tr key={u.id} className="border-t border-zinc-800 hover:bg-zinc-900/50 transition">
                   <td className="px-4 py-3">
                     <div className="font-semibold text-white">{u.name}</div>
                     <div className="text-gray-400 text-xs">{u.email}</div>
@@ -67,7 +67,7 @@ export default function AdminUsersPage() {
                     {new Date(u.createdAt).toLocaleDateString()}
                   </td>
                   <td className="px-4 py-3">
-                    <span className={`text-xs px-2 py-1 rounded font-bold ${u.role === 'ADMIN' ? 'bg-red-600 text-white' : 'bg-gray-700 text-gray-300'}`}>
+                    <span className={`text-xs px-2 py-1 rounded font-bold ${u.role === 'ADMIN' ? 'bg-red-600 text-white' : 'bg-zinc-800 text-gray-300'}`}>
                       {u.role}
                     </span>
                   </td>

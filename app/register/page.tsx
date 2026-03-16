@@ -32,7 +32,7 @@ export default function RegisterPage() {
 
   return (
     <div className="min-h-screen flex items-center justify-center px-4 bg-gray-950">
-      <div className="w-full max-w-md bg-gray-900 rounded-xl p-8 shadow-2xl">
+      <div className="w-full max-w-md bg-zinc-950 rounded-xl p-8 shadow-2xl">
         <h1 className="text-3xl font-bold text-white mb-2 text-center">Create Account</h1>
         <p className="text-gray-400 text-center mb-8">Join MoviePortal today</p>
 
@@ -44,7 +44,7 @@ export default function RegisterPage() {
               required
               value={form.name}
               onChange={(e) => setForm({ ...form, name: e.target.value })}
-              className="w-full bg-gray-800 text-white border border-gray-700 rounded-lg px-4 py-3 focus:outline-none focus:border-yellow-400"
+              className="w-full bg-zinc-900 text-white border border-zinc-800 rounded-lg px-4 py-3 focus:outline-none focus:border-red-600"
               placeholder="John Doe"
             />
           </div>
@@ -55,7 +55,7 @@ export default function RegisterPage() {
               required
               value={form.email}
               onChange={(e) => setForm({ ...form, email: e.target.value })}
-              className="w-full bg-gray-800 text-white border border-gray-700 rounded-lg px-4 py-3 focus:outline-none focus:border-yellow-400"
+              className="w-full bg-zinc-900 text-white border border-zinc-800 rounded-lg px-4 py-3 focus:outline-none focus:border-red-600"
               placeholder="you@example.com"
             />
           </div>
@@ -67,14 +67,14 @@ export default function RegisterPage() {
               minLength={6}
               value={form.password}
               onChange={(e) => setForm({ ...form, password: e.target.value })}
-              className="w-full bg-gray-800 text-white border border-gray-700 rounded-lg px-4 py-3 focus:outline-none focus:border-yellow-400"
+              className="w-full bg-zinc-900 text-white border border-zinc-800 rounded-lg px-4 py-3 focus:outline-none focus:border-red-600"
               placeholder="Min 6 characters"
             />
           </div>
           <button
             type="submit"
             disabled={loading}
-            className="w-full bg-yellow-500 hover:bg-yellow-600 text-black font-bold py-3 rounded-lg transition disabled:opacity-50"
+            className="w-full bg-red-600 hover:bg-red-700 text-black font-bold py-3 rounded-lg transition disabled:opacity-50"
           >
             {loading ? 'Creating account...' : 'Create Account'}
           </button>
@@ -82,7 +82,7 @@ export default function RegisterPage() {
 
         <p className="text-center text-gray-400 mt-6">
           Already have an account?{' '}
-          <Link href="/login" className="text-yellow-400 hover:underline">Sign in</Link>
+          <Link href="/login" className="text-red-400 hover:underline">Sign in</Link>
         </p>
       </div>
     </div>

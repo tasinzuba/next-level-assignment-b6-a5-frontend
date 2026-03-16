@@ -49,12 +49,12 @@ export default function MoviesPage() {
           placeholder="Search movies..."
           value={search}
           onChange={(e) => { setSearch(e.target.value); setPage(1); }}
-          className="bg-gray-800 text-white border border-gray-700 rounded-lg px-4 py-2 focus:outline-none focus:border-yellow-400 flex-1 min-w-[200px]"
+          className="bg-zinc-900 text-white border border-zinc-800 rounded-lg px-4 py-2 focus:outline-none focus:border-red-600 flex-1 min-w-[200px]"
         />
         <select
           value={genre}
           onChange={(e) => { setGenre(e.target.value); setPage(1); }}
-          className="bg-gray-800 text-white border border-gray-700 rounded-lg px-4 py-2 focus:outline-none focus:border-yellow-400"
+          className="bg-zinc-900 text-white border border-zinc-800 rounded-lg px-4 py-2 focus:outline-none focus:border-red-600"
         >
           <option value="">All Genres</option>
           {GENRES.map((g) => <option key={g} value={g}>{g}</option>)}
@@ -62,7 +62,7 @@ export default function MoviesPage() {
         <select
           value={priceType}
           onChange={(e) => { setPriceType(e.target.value); setPage(1); }}
-          className="bg-gray-800 text-white border border-gray-700 rounded-lg px-4 py-2 focus:outline-none focus:border-yellow-400"
+          className="bg-zinc-900 text-white border border-zinc-800 rounded-lg px-4 py-2 focus:outline-none focus:border-red-600"
         >
           <option value="">All Types</option>
           <option value="FREE">Free</option>
@@ -73,7 +73,7 @@ export default function MoviesPage() {
       {loading ? (
         <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-6">
           {Array.from({ length: 12 }).map((_, i) => (
-            <div key={i} className="bg-gray-800 rounded-lg aspect-[2/3] animate-pulse" />
+            <div key={i} className="bg-zinc-900 rounded-lg aspect-[2/3] animate-pulse" />
           ))}
         </div>
       ) : movies.length > 0 ? (
@@ -86,7 +86,7 @@ export default function MoviesPage() {
             <button
               onClick={() => setPage((p) => Math.max(1, p - 1))}
               disabled={page === 1}
-              className="px-4 py-2 bg-gray-800 rounded disabled:opacity-40 hover:bg-gray-700 transition"
+              className="px-4 py-2 bg-zinc-900 rounded disabled:opacity-40 hover:bg-zinc-800 transition"
             >
               ← Prev
             </button>
@@ -94,7 +94,7 @@ export default function MoviesPage() {
             <button
               onClick={() => setPage((p) => Math.min(totalPages, p + 1))}
               disabled={page === totalPages}
-              className="px-4 py-2 bg-gray-800 rounded disabled:opacity-40 hover:bg-gray-700 transition"
+              className="px-4 py-2 bg-zinc-900 rounded disabled:opacity-40 hover:bg-zinc-800 transition"
             >
               Next →
             </button>

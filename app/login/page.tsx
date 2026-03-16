@@ -32,7 +32,7 @@ export default function LoginPage() {
 
   return (
     <div className="min-h-screen flex items-center justify-center px-4 bg-gray-950">
-      <div className="w-full max-w-md bg-gray-900 rounded-xl p-8 shadow-2xl">
+      <div className="w-full max-w-md bg-zinc-950 rounded-xl p-8 shadow-2xl">
         <h1 className="text-3xl font-bold text-white mb-2 text-center">Welcome Back</h1>
         <p className="text-gray-400 text-center mb-8">Sign in to your account</p>
 
@@ -44,7 +44,7 @@ export default function LoginPage() {
               required
               value={form.email}
               onChange={(e) => setForm({ ...form, email: e.target.value })}
-              className="w-full bg-gray-800 text-white border border-gray-700 rounded-lg px-4 py-3 focus:outline-none focus:border-yellow-400"
+              className="w-full bg-zinc-900 text-white border border-zinc-800 rounded-lg px-4 py-3 focus:outline-none focus:border-red-600"
               placeholder="you@example.com"
             />
           </div>
@@ -55,14 +55,14 @@ export default function LoginPage() {
               required
               value={form.password}
               onChange={(e) => setForm({ ...form, password: e.target.value })}
-              className="w-full bg-gray-800 text-white border border-gray-700 rounded-lg px-4 py-3 focus:outline-none focus:border-yellow-400"
+              className="w-full bg-zinc-900 text-white border border-zinc-800 rounded-lg px-4 py-3 focus:outline-none focus:border-red-600"
               placeholder="••••••••"
             />
           </div>
           <button
             type="submit"
             disabled={loading}
-            className="w-full bg-yellow-500 hover:bg-yellow-600 text-black font-bold py-3 rounded-lg transition disabled:opacity-50"
+            className="w-full bg-red-600 hover:bg-red-700 text-black font-bold py-3 rounded-lg transition disabled:opacity-50"
           >
             {loading ? 'Signing in...' : 'Sign In'}
           </button>
@@ -70,7 +70,7 @@ export default function LoginPage() {
 
         <p className="text-center text-gray-400 mt-6">
           Don&apos;t have an account?{' '}
-          <Link href="/register" className="text-yellow-400 hover:underline">Register</Link>
+          <Link href="/register" className="text-red-400 hover:underline">Register</Link>
         </p>
       </div>
     </div>

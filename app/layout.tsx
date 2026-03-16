@@ -15,11 +15,11 @@ export const metadata: Metadata = {
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en">
-      <body className={`${geist.className} bg-gray-950 text-white min-h-screen flex flex-col`}>
+      <body className={`${geist.className} bg-black text-white min-h-screen flex flex-col`}>
         <Navbar />
         <main className="flex-1">{children}</main>
         <Footer />
-        <Toaster position="top-right" toastOptions={{ style: { background: '#1f2937', color: '#fff' } }} />
+        <Toaster position="top-right" toastOptions={{ style: { background: '#1a0000', color: '#fff', border: '1px solid #dc2626' } }} />
       </body>
     </html>
   );

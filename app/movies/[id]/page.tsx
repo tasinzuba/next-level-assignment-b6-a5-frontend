@@ -112,7 +112,7 @@ export default function MovieDetailPage() {
   if (loading) {
     return (
       <div className="max-w-5xl mx-auto px-4 py-10">
-        <div className="animate-pulse bg-gray-800 rounded-xl h-96" />
+        <div className="animate-pulse bg-zinc-900 rounded-xl h-96" />
       </div>
     );
   }
@@ -127,7 +127,7 @@ export default function MovieDetailPage() {
           {movie.posterUrl ? (
             <img src={movie.posterUrl} alt={movie.title} className="w-full rounded-xl shadow-2xl" />
           ) : (
-            <div className="w-full aspect-[2/3] bg-gray-800 rounded-xl flex items-center justify-center text-6xl">🎬</div>
+            <div className="w-full aspect-[2/3] bg-zinc-900 rounded-xl flex items-center justify-center text-6xl">🎬</div>
           )}
         </div>
         <div className="flex-1">
@@ -136,19 +136,19 @@ export default function MovieDetailPage() {
               <h1 className="text-4xl font-bold text-white">{movie.title}</h1>
               <p className="text-gray-400 mt-1">{movie.releaseYear} • {movie.director}</p>
             </div>
-            <span className={`px-3 py-1 rounded-full text-sm font-bold ${movie.priceType === 'PREMIUM' ? 'bg-yellow-500 text-black' : 'bg-green-600 text-white'}`}>
+            <span className={`px-3 py-1 rounded-full text-sm font-bold ${movie.priceType === 'PREMIUM' ? 'bg-red-600 text-black' : 'bg-green-600 text-white'}`}>
               {movie.priceType}
             </span>
           </div>
 
           <div className="flex items-center gap-2 mt-4">
-            <span className="text-yellow-400 text-2xl font-bold">⭐ {movie.averageRating?.toFixed(1) || 'N/A'}</span>
+            <span className="text-red-400 text-2xl font-bold">⭐ {movie.averageRating?.toFixed(1) || 'N/A'}</span>
             <span className="text-gray-400 text-sm">({movie.totalReviews} reviews)</span>
           </div>
 
           <div className="flex flex-wrap gap-2 mt-4">
             {movie.genre?.map((g) => (
-              <span key={g} className="bg-gray-700 text-gray-300 px-3 py-1 rounded-full text-sm">{g}</span>
+              <span key={g} className="bg-zinc-800 text-gray-300 px-3 py-1 rounded-full text-sm">{g}</span>
             ))}
           </div>
 
@@ -161,12 +161,12 @@ export default function MovieDetailPage() {
           <div className="flex gap-3 mt-6 flex-wrap">
             <button
               onClick={handleWatchlist}
-              className={`px-5 py-2 rounded-lg font-semibold transition ${inWatchlist ? 'bg-red-600 hover:bg-red-700 text-white' : 'bg-yellow-500 hover:bg-yellow-600 text-black'}`}
+              className={`px-5 py-2 rounded-lg font-semibold transition ${inWatchlist ? 'bg-red-600 hover:bg-red-700 text-white' : 'bg-red-600 hover:bg-red-700 text-black'}`}
             >
               {inWatchlist ? '✓ In Watchlist' : '+ Add to Watchlist'}
             </button>
             {movie.trailerUrl && (
-              <a href={movie.trailerUrl} target="_blank" rel="noreferrer" className="px-5 py-2 rounded-lg bg-gray-700 hover:bg-gray-600 text-white transition">
+              <a href={movie.trailerUrl} target="_blank" rel="noreferrer" className="px-5 py-2 rounded-lg bg-zinc-800 hover:bg-gray-600 text-white transition">
                 Watch Trailer
               </a>
             )}
@@ -175,7 +175,7 @@ export default function MovieDetailPage() {
       </div>
 
       {/* Write Review */}
-      <div className="bg-gray-900 rounded-xl p-6 mb-10">
+      <div className="bg-zinc-950 rounded-xl p-6 mb-10">
         <h2 className="text-2xl font-bold text-white mb-5">Write a Review</h2>
         {user ? (
           <form onSubmit={handleReviewSubmit} className="space-y-4">
@@ -185,7 +185,7 @@ export default function MovieDetailPage() {
               placeholder="Review title"
               value={reviewForm.title}
               onChange={(e) => setReviewForm({ ...reviewForm, title: e.target.value })}
-              className="w-full bg-gray-800 text-white border border-gray-700 rounded-lg px-4 py-3 focus:outline-none focus:border-yellow-400"
+              className="w-full bg-zinc-900 text-white border border-zinc-800 rounded-lg px-4 py-3 focus:outline-none focus:border-red-600"
             />
             <textarea
               required
@@ -193,7 +193,7 @@ export default function MovieDetailPage() {
               placeholder="Share your thoughts..."
               value={reviewForm.body}
               onChange={(e) => setReviewForm({ ...reviewForm, body: e.target.value })}
-              className="w-full bg-gray-800 text-white border border-gray-700 rounded-lg px-4 py-3 focus:outline-none focus:border-yellow-400 resize-none"
+              className="w-full bg-zinc-900 text-white border border-zinc-800 rounded-lg px-4 py-3 focus:outline-none focus:border-red-600 resize-none"
             />
             <div className="flex items-center gap-6 flex-wrap">
               <div className="flex items-center gap-2">
@@ -201,7 +201,7 @@ export default function MovieDetailPage() {
                 <select
                   value={reviewForm.rating}
                   onChange={(e) => setReviewForm({ ...reviewForm, rating: Number(e.target.value) })}
-                  className="bg-gray-800 text-white border border-gray-700 rounded px-3 py-2"
+                  className="bg-zinc-900 text-white border border-zinc-800 rounded px-3 py-2"
                 >
                   {[1,2,3,4,5].map((r) => <option key={r} value={r}>{r} ⭐</option>)}
                 </select>
@@ -216,13 +216,13 @@ export default function MovieDetailPage() {
                 Contains spoilers
               </label>
             </div>
-            <button type="submit" disabled={submitting} className="bg-yellow-500 hover:bg-yellow-600 text-black font-bold px-6 py-2 rounded-lg transition disabled:opacity-50">
+            <button type="submit" disabled={submitting} className="bg-red-600 hover:bg-red-700 text-black font-bold px-6 py-2 rounded-lg transition disabled:opacity-50">
               {submitting ? 'Submitting...' : 'Submit Review'}
             </button>
           </form>
         ) : (
           <p className="text-gray-400">
-            <Link href="/login" className="text-yellow-400 hover:underline">Sign in</Link> to write a review.
+            <Link href="/login" className="text-red-400 hover:underline">Sign in</Link> to write a review.
           </p>
         )}
       </div>
@@ -235,29 +235,29 @@ export default function MovieDetailPage() {
         ) : (
           <div className="space-y-6">
             {reviews.map((review) => (
-              <div key={review.id} className="bg-gray-900 rounded-xl p-6">
+              <div key={review.id} className="bg-zinc-950 rounded-xl p-6">
                 <div className="flex items-start justify-between mb-3">
                   <div>
                     <h3 className="font-bold text-white text-lg">{review.title}</h3>
                     <p className="text-gray-400 text-sm">{review.user.name} • {new Date(review.createdAt).toLocaleDateString()}</p>
                   </div>
-                  <span className="text-yellow-400 font-bold text-xl">{'⭐'.repeat(review.rating)}</span>
+                  <span className="text-red-400 font-bold text-xl">{'⭐'.repeat(review.rating)}</span>
                 </div>
                 {review.spoiler && <p className="text-red-400 text-xs mb-2">⚠ Spoiler Warning</p>}
                 <p className="text-gray-300 leading-relaxed">{review.body}</p>
 
                 <button
                   onClick={() => loadComments(review.id)}
-                  className="mt-4 text-sm text-yellow-400 hover:underline"
+                  className="mt-4 text-sm text-red-400 hover:underline"
                 >
                   {expandedReview === review.id ? 'Hide' : 'Show'} Comments ({review._count?.comments || 0})
                 </button>
 
                 {expandedReview === review.id && (
-                  <div className="mt-4 space-y-3 border-t border-gray-700 pt-4">
+                  <div className="mt-4 space-y-3 border-t border-zinc-800 pt-4">
                     {(comments[review.id] || []).map((c) => (
                       <div key={c.id} className="flex gap-3">
-                        <div className="w-8 h-8 bg-gray-700 rounded-full flex items-center justify-center text-sm font-bold text-yellow-400 flex-shrink-0">
+                        <div className="w-8 h-8 bg-zinc-800 rounded-full flex items-center justify-center text-sm font-bold text-red-400 flex-shrink-0">
                           {c.user.name[0].toUpperCase()}
                         </div>
                         <div>
@@ -273,11 +273,11 @@ export default function MovieDetailPage() {
                           placeholder="Add a comment..."
                           value={commentText[review.id] || ''}
                           onChange={(e) => setCommentText({ ...commentText, [review.id]: e.target.value })}
-                          className="flex-1 bg-gray-800 text-white border border-gray-700 rounded px-3 py-2 text-sm focus:outline-none focus:border-yellow-400"
+                          className="flex-1 bg-zinc-900 text-white border border-zinc-800 rounded px-3 py-2 text-sm focus:outline-none focus:border-red-600"
                         />
                         <button
                           onClick={() => handleComment(review.id)}
-                          className="bg-yellow-500 text-black px-4 py-2 rounded text-sm font-semibold hover:bg-yellow-600 transition"
+                          className="bg-red-600 text-black px-4 py-2 rounded text-sm font-semibold hover:bg-red-700 transition"
                         >
                           Post
                         </button>

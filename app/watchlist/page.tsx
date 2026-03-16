@@ -45,7 +45,7 @@ export default function WatchlistPage() {
       <div className="max-w-5xl mx-auto px-4 py-10">
         <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
           {Array.from({ length: 8 }).map((_, i) => (
-            <div key={i} className="bg-gray-800 rounded-lg aspect-[2/3] animate-pulse" />
+            <div key={i} className="bg-zinc-900 rounded-lg aspect-[2/3] animate-pulse" />
           ))}
         </div>
       </div>
@@ -59,7 +59,7 @@ export default function WatchlistPage() {
       {watchlist.length === 0 ? (
         <div className="text-center py-20">
           <p className="text-gray-400 text-xl mb-4">Your watchlist is empty.</p>
-          <Link href="/movies" className="bg-yellow-500 hover:bg-yellow-600 text-black font-bold px-6 py-3 rounded-lg transition">
+          <Link href="/movies" className="bg-red-600 hover:bg-red-700 text-black font-bold px-6 py-3 rounded-lg transition">
             Browse Movies
           </Link>
         </div>
@@ -68,14 +68,14 @@ export default function WatchlistPage() {
           {watchlist.map((item) => (
             <div key={item.id} className="group relative">
               <Link href={`/movies/${item.movie.id}`}>
-                <div className="bg-gray-800 rounded-lg overflow-hidden hover:ring-2 hover:ring-yellow-400 transition">
-                  <div className="aspect-[2/3] bg-gray-700 relative">
+                <div className="bg-zinc-900 rounded-lg overflow-hidden hover:ring-2 hover:ring-red-500 transition">
+                  <div className="aspect-[2/3] bg-zinc-800 relative">
                     {item.movie.posterUrl ? (
                       <img src={item.movie.posterUrl} alt={item.movie.title} className="w-full h-full object-cover group-hover:scale-105 transition duration-300" />
                     ) : (
                       <div className="w-full h-full flex items-center justify-center text-4xl">🎬</div>
                     )}
-                    <div className="absolute top-2 right-2 bg-black/70 text-yellow-400 text-xs font-bold px-2 py-1 rounded">
+                    <div className="absolute top-2 right-2 bg-black/70 text-red-400 text-xs font-bold px-2 py-1 rounded">
                       ⭐ {item.movie.averageRating?.toFixed(1) || 'N/A'}
                     </div>
                   </div>

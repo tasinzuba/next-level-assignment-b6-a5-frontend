@@ -48,7 +48,7 @@ export default function AdminReviewsPage() {
           <button
             key={s}
             onClick={() => setFilter(s)}
-            className={`px-4 py-2 rounded-lg text-sm font-semibold transition ${filter === s ? 'bg-yellow-500 text-black' : 'bg-gray-800 text-gray-300 hover:bg-gray-700'}`}
+            className={`px-4 py-2 rounded-lg text-sm font-semibold transition ${filter === s ? 'bg-red-600 text-black' : 'bg-zinc-900 text-gray-300 hover:bg-zinc-800'}`}
           >
             {s}
           </button>
@@ -57,20 +57,20 @@ export default function AdminReviewsPage() {
 
       {loading ? (
         <div className="space-y-4">
-          {Array.from({ length: 4 }).map((_, i) => <div key={i} className="bg-gray-800 h-28 rounded-xl animate-pulse" />)}
+          {Array.from({ length: 4 }).map((_, i) => <div key={i} className="bg-zinc-900 h-28 rounded-xl animate-pulse" />)}
         </div>
       ) : reviews.length === 0 ? (
         <p className="text-gray-400 text-center py-12">No {filter.toLowerCase()} reviews.</p>
       ) : (
         <div className="space-y-4">
           {reviews.map((review) => (
-            <div key={review.id} className="bg-gray-900 rounded-xl p-5">
+            <div key={review.id} className="bg-zinc-950 rounded-xl p-5">
               <div className="flex items-start justify-between gap-4 mb-3">
                 <div className="flex-1 min-w-0">
                   <h3 className="font-bold text-white">{review.title}</h3>
                   <p className="text-gray-400 text-sm mt-0.5">
                     by <span className="text-gray-300">{review.user?.name}</span> •{' '}
-                    <span className="text-yellow-400">{review.movie?.title}</span> •{' '}
+                    <span className="text-red-400">{review.movie?.title}</span> •{' '}
                     {'⭐'.repeat(review.rating)}
                   </p>
                 </div>

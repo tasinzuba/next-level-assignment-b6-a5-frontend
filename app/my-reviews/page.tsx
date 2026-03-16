@@ -69,14 +69,14 @@ export default function MyReviewsPage() {
   const statusColor = (status: string) => {
     if (status === 'APPROVED') return 'bg-green-700 text-white';
     if (status === 'REJECTED') return 'bg-red-700 text-white';
-    return 'bg-yellow-600 text-black';
+    return 'bg-red-700 text-black';
   };
 
   if (loading) {
     return (
       <div className="max-w-4xl mx-auto px-4 py-10 space-y-4">
         {Array.from({ length: 3 }).map((_, i) => (
-          <div key={i} className="bg-gray-800 h-28 rounded-xl animate-pulse" />
+          <div key={i} className="bg-zinc-900 h-28 rounded-xl animate-pulse" />
         ))}
       </div>
     );
@@ -89,14 +89,14 @@ export default function MyReviewsPage() {
       {reviews.length === 0 ? (
         <div className="text-center py-20">
           <p className="text-gray-400 text-xl mb-4">You haven&apos;t written any reviews yet.</p>
-          <Link href="/movies" className="bg-yellow-500 hover:bg-yellow-600 text-black font-bold px-6 py-3 rounded-lg transition">
+          <Link href="/movies" className="bg-red-600 hover:bg-red-700 text-black font-bold px-6 py-3 rounded-lg transition">
             Browse Movies
           </Link>
         </div>
       ) : (
         <div className="space-y-5">
           {reviews.map((review) => (
-            <div key={review.id} className="bg-gray-900 rounded-xl p-6">
+            <div key={review.id} className="bg-zinc-950 rounded-xl p-6">
               {editId === review.id ? (
                 /* Edit Form */
                 <form onSubmit={handleUpdate} className="space-y-4">
@@ -105,7 +105,7 @@ export default function MyReviewsPage() {
                     required
                     value={editForm.title}
                     onChange={(e) => setEditForm({ ...editForm, title: e.target.value })}
-                    className="w-full bg-gray-800 text-white border border-gray-700 rounded-lg px-4 py-2.5 focus:outline-none focus:border-yellow-400"
+                    className="w-full bg-zinc-900 text-white border border-zinc-800 rounded-lg px-4 py-2.5 focus:outline-none focus:border-red-600"
                     placeholder="Review title"
                   />
                   <textarea
@@ -113,7 +113,7 @@ export default function MyReviewsPage() {
                     rows={4}
                     value={editForm.body}
                     onChange={(e) => setEditForm({ ...editForm, body: e.target.value })}
-                    className="w-full bg-gray-800 text-white border border-gray-700 rounded-lg px-4 py-2.5 focus:outline-none focus:border-yellow-400 resize-none"
+                    className="w-full bg-zinc-900 text-white border border-zinc-800 rounded-lg px-4 py-2.5 focus:outline-none focus:border-red-600 resize-none"
                     placeholder="Your review..."
                   />
                   <div className="flex items-center gap-4">
@@ -122,12 +122,12 @@ export default function MyReviewsPage() {
                       <select
                         value={editForm.rating}
                         onChange={(e) => setEditForm({ ...editForm, rating: Number(e.target.value) })}
-                        className="bg-gray-800 text-white border border-gray-700 rounded px-3 py-1.5"
+                        className="bg-zinc-900 text-white border border-zinc-800 rounded px-3 py-1.5"
                       >
                         {[1,2,3,4,5,6,7,8,9,10].map((r) => <option key={r} value={r}>{r} ⭐</option>)}
                       </select>
                     </div>
-                    <button type="submit" disabled={saving} className="bg-yellow-500 hover:bg-yellow-600 text-black font-bold px-5 py-2 rounded-lg transition disabled:opacity-50">
+                    <button type="submit" disabled={saving} className="bg-red-600 hover:bg-red-700 text-black font-bold px-5 py-2 rounded-lg transition disabled:opacity-50">
                       {saving ? 'Saving...' : 'Save'}
                     </button>
                     <button type="button" onClick={() => setEditId(null)} className="text-gray-400 hover:text-white transition">
@@ -141,13 +141,13 @@ export default function MyReviewsPage() {
                   <div className="flex items-start justify-between gap-4 flex-wrap mb-3">
                     <div>
                       <h3 className="font-bold text-white text-lg">{review.title}</h3>
-                      <Link href={`/movies/${review.movie?.id}`} className="text-yellow-400 text-sm hover:underline">
+                      <Link href={`/movies/${review.movie?.id}`} className="text-red-400 text-sm hover:underline">
                         {review.movie?.title}
                       </Link>
                       <p className="text-gray-500 text-xs mt-0.5">{new Date(review.createdAt).toLocaleDateString()}</p>
                     </div>
                     <div className="flex items-center gap-3 flex-shrink-0">
-                      <span className="text-yellow-400 font-bold">{'⭐'.repeat(Math.min(review.rating, 5))}</span>
+                      <span className="text-red-400 font-bold">{'⭐'.repeat(Math.min(review.rating, 5))}</span>
                       <span className="text-gray-300 text-sm font-semibold">{review.rating}/10</span>
                       <span className={`text-xs px-2 py-1 rounded font-bold ${statusColor(review.status)}`}>
                         {review.status}
@@ -162,7 +162,7 @@ export default function MyReviewsPage() {
                     {review.status === 'PENDING' && (
                       <button
                         onClick={() => handleEdit(review)}
-                        className="text-sm bg-gray-700 hover:bg-gray-600 text-white px-4 py-1.5 rounded-lg transition"
+                        className="text-sm bg-zinc-800 hover:bg-gray-600 text-white px-4 py-1.5 rounded-lg transition"
                       >
                         ✏️ Edit
                       </button>
