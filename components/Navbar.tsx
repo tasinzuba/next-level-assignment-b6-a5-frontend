@@ -39,8 +39,7 @@ export default function Navbar() {
       <div className="max-w-7xl mx-auto px-4 h-16 flex items-center justify-between">
         {/* Logo */}
         <Link href="/" className="flex items-center gap-2 hover:opacity-80 transition">
-          <img src="/logo.svg" alt="Recape Movie" className="w-9 h-9" />
-          <span className="text-xl font-bold text-white"><span className="text-red-500">Recape</span> Movie</span>
+          <img src="/logo.svg" alt="Recape Movie" className="h-10" />
         </Link>
 
         {/* Desktop Nav */}
