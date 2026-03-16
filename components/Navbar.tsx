@@ -32,6 +32,7 @@ export default function Navbar() {
           {user && (
             <>
               <Link href="/watchlist" className="hover:text-yellow-400 transition">Watchlist</Link>
+              <Link href="/my-reviews" className="hover:text-yellow-400 transition">My Reviews</Link>
               <Link href="/subscription" className="hover:text-yellow-400 transition">Plans</Link>
             </>
           )}
@@ -77,7 +78,11 @@ export default function Navbar() {
         <div className="md:hidden bg-gray-800 px-4 py-3 flex flex-col gap-3">
           <Link href="/movies" className="hover:text-yellow-400" onClick={() => setMenuOpen(false)}>Movies</Link>
           {user && (
-            <Link href="/watchlist" className="hover:text-yellow-400" onClick={() => setMenuOpen(false)}>Watchlist</Link>
+            <>
+              <Link href="/watchlist" className="hover:text-yellow-400" onClick={() => setMenuOpen(false)}>Watchlist</Link>
+              <Link href="/my-reviews" className="hover:text-yellow-400" onClick={() => setMenuOpen(false)}>My Reviews</Link>
+              <Link href="/subscription" className="hover:text-yellow-400" onClick={() => setMenuOpen(false)}>Plans</Link>
+            </>
           )}
           {user?.role === 'ADMIN' && (
             <Link href="/admin" className="text-red-400" onClick={() => setMenuOpen(false)}>Admin</Link>
