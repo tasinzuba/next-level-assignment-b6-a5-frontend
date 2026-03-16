@@ -3,6 +3,7 @@ import api from '@/lib/api';
 import { Movie } from '@/types';
 import HeroSlider from '@/components/HeroSlider';
 import MovieCarousel from '@/components/MovieCarousel';
+import HomeSidebar from '@/components/HomeSidebar';
 
 async function getMovies(params: string): Promise<Movie[]> {
   try {
@@ -31,42 +32,54 @@ export default async function HomePage() {
 
   return (
     <div className="bg-black min-h-screen">
-      {/* Hero Slider - 2 column style */}
-      <HeroSlider movies={heroMovies} />
+      <div className="max-w-7xl mx-auto px-4 py-6">
+        <div className="flex gap-6">
+          {/* Main content */}
+          <div className="flex-1 min-w-0 space-y-8">
+            {/* Hero Slider */}
+            <HeroSlider movies={heroMovies} />
 
-      {/* Latest Movies */}
-      <section className="max-w-7xl mx-auto px-4 py-10">
-        <div className="flex items-center justify-between mb-5">
-          <div className="flex items-center gap-3">
-            <span className="w-1 h-6 bg-red-600 rounded-sm block" />
-            <h2 className="text-xl font-bold text-white">Latest Movies</h2>
+            {/* Latest Movies */}
+            <section>
+              <div className="flex items-center justify-between mb-4">
+                <div className="flex items-center gap-3">
+                  <span className="w-1 h-6 bg-red-600 rounded-sm block" />
+                  <h2 className="text-lg font-bold text-white">Latest Movies</h2>
+                </div>
+                <Link href="/movies" className="bg-red-600 hover:bg-red-500 text-white text-xs font-bold px-4 py-1.5 rounded transition">
+                  SEE ALL
+                </Link>
+              </div>
+              {latestMovies.length > 0 ? (
+                <MovieCarousel movies={latestMovies} />
+              ) : (
+                <p className="text-gray-600 text-center py-8">No movies yet.</p>
+              )}
+            </section>
+
+            {/* Featured */}
+            {featuredMovies.length > 0 && (
+              <section>
+                <div className="flex items-center justify-between mb-4">
+                  <div className="flex items-center gap-3">
+                    <span className="w-1 h-6 bg-red-600 rounded-sm block" />
+                    <h2 className="text-lg font-bold text-white">Featured</h2>
+                  </div>
+                  <Link href="/movies" className="bg-red-600 hover:bg-red-500 text-white text-xs font-bold px-4 py-1.5 rounded transition">
+                    SEE ALL
+                  </Link>
+                </div>
+                <MovieCarousel movies={featuredMovies} />
+              </section>
+            )}
           </div>
-          <Link href="/movies" className="bg-red-600 hover:bg-red-500 text-white text-xs font-bold px-4 py-1.5 rounded transition">
-            SEE ALL
-          </Link>
+
+          {/* Sidebar */}
+          <div className="hidden lg:block w-72 flex-shrink-0">
+            <HomeSidebar latestUpdates={latestMovies} />
+          </div>
         </div>
-        {latestMovies.length > 0 ? (
-          <MovieCarousel movies={latestMovies} />
-        ) : (
-          <p className="text-gray-600 text-center py-12">No movies yet.</p>
-        )}
-      </section>
-
-      {/* Featured Movies */}
-      {featuredMovies.length > 0 && (
-        <section className="max-w-7xl mx-auto px-4 py-6 pb-10">
-          <div className="flex items-center justify-between mb-5">
-            <div className="flex items-center gap-3">
-              <span className="w-1 h-6 bg-red-600 rounded-sm block" />
-              <h2 className="text-xl font-bold text-white">Featured</h2>
-            </div>
-            <Link href="/movies" className="bg-red-600 hover:bg-red-500 text-white text-xs font-bold px-4 py-1.5 rounded transition">
-              SEE ALL
-            </Link>
-          </div>
-          <MovieCarousel movies={featuredMovies} />
-        </section>
-      )}
+      </div>
     </div>
   );
 }
