@@ -21,6 +21,8 @@ export default function MovieDetailPage() {
   const [expandedReview, setExpandedReview] = useState<string | null>(null);
   const [comments, setComments] = useState<Record<string, Comment[]>>({});
   const [commentText, setCommentText] = useState<Record<string, string>>({});
+  const [likedReviews, setLikedReviews] = useState<Set<string>>(new Set());
+  const [likeCounts, setLikeCounts] = useState<Record<string, number>>({});
 
   useEffect(() => {
     fetchMovie();
@@ -42,9 +44,27 @@ export default function MovieDetailPage() {
   const fetchReviews = async () => {
     try {
       const res = await api.get(`/reviews?movieId=${id}&status=PUBLISHED`);
-      setReviews(res.data.data || []);
+      const data = res.data.data || [];
+      setReviews(data);
+      const counts: Record<string, number> = {};
+      data.forEach((r: Review) => { counts[r.id] = r._count?.likes || 0; });
+      setLikeCounts(counts);
     } catch {
       setReviews([]);
+    }
+  };
+
+  const handleLike = async (reviewId: string) => {
+    if (!user) { router.push('/login'); return; }
+    try {
+      await api.post(`/reviews/${reviewId}/like`);
+      const liked = likedReviews.has(reviewId);
+      const next = new Set(likedReviews);
+      if (liked) { next.delete(reviewId); } else { next.add(reviewId); }
+      setLikedReviews(next);
+      setLikeCounts((prev) => ({ ...prev, [reviewId]: (prev[reviewId] || 0) + (liked ? -1 : 1) }));
+    } catch {
+      toast.error('Failed to like review');
     }
   };
 
@@ -246,12 +266,21 @@ export default function MovieDetailPage() {
                 {review.spoiler && <p className="text-red-400 text-xs mb-2">⚠ Spoiler Warning</p>}
                 <p className="text-gray-300 leading-relaxed">{review.content}</p>
 
-                <button
-                  onClick={() => loadComments(review.id)}
-                  className="mt-4 text-sm text-red-400 hover:underline"
-                >
-                  {expandedReview === review.id ? 'Hide' : 'Show'} Comments ({review._count?.comments || 0})
-                </button>
+                <div className="flex items-center gap-4 mt-4">
+                  <button
+                    onClick={() => handleLike(review.id)}
+                    className={`flex items-center gap-1.5 text-sm font-medium transition px-3 py-1.5 rounded-lg ${likedReviews.has(review.id) ? 'bg-red-600/20 text-red-400' : 'bg-zinc-800 text-gray-400 hover:text-red-400'}`}
+                  >
+                    <span>{likedReviews.has(review.id) ? '❤️' : '🤍'}</span>
+                    <span>{likeCounts[review.id] ?? 0}</span>
+                  </button>
+                  <button
+                    onClick={() => loadComments(review.id)}
+                    className="text-sm text-gray-400 hover:text-red-400 transition"
+                  >
+                    💬 {expandedReview === review.id ? 'Hide' : 'Show'} Comments ({review._count?.comments || 0})
+                  </button>
+                </div>
 
                 {expandedReview === review.id && (
                   <div className="mt-4 space-y-3 border-t border-zinc-800 pt-4">
