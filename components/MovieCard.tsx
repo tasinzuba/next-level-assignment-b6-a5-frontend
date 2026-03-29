@@ -30,7 +30,12 @@ export default function MovieCard({ movie }: { movie: Movie }) {
           <h3 className="font-semibold text-white text-sm truncate group-hover:text-red-400 transition">
             {movie.title}
           </h3>
-          <p className="text-gray-400 text-xs mt-1">{movie.releaseYear}</p>
+          <div className="flex items-center gap-2 mt-1">
+            <span className="text-red-400 text-xs font-semibold">{movie.releaseYear}</span>
+            {(movie as Movie & { mediaType?: string }).mediaType === 'SERIES' && (
+              <span className="text-xs bg-zinc-800 text-gray-400 px-1.5 py-0.5 rounded">Series</span>
+            )}
+          </div>
           <p className="text-gray-500 text-xs mt-1 truncate">{movie.genre?.join(', ')}</p>
         </div>
       </div>

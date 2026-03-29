@@ -133,21 +133,21 @@ export default function Navbar() {
           {/* Movies hover dropdown */}
           <HoverDropdown label="Movies">
             <div className="w-44 bg-zinc-900 border border-zinc-700/70 rounded-xl shadow-2xl shadow-black/60 py-1.5">
-              <Link href="/movies" className="flex items-center gap-2.5 px-4 py-2.5 text-sm text-gray-300 hover:text-white hover:bg-zinc-800/70 transition">
-                <span className="text-red-400">🎬</span> All Movies
+              <Link href="/movies" className="px-4 py-2.5 text-sm text-gray-300 hover:text-white hover:bg-zinc-800/70 transition block">
+                All Movies
               </Link>
-              <Link href="/movies?mediaType=MOVIE" className="flex items-center gap-2.5 px-4 py-2.5 text-sm text-gray-300 hover:text-white hover:bg-zinc-800/70 transition">
-                <span>🎥</span> Movies Only
+              <Link href="/movies?mediaType=MOVIE" className="px-4 py-2.5 text-sm text-gray-300 hover:text-white hover:bg-zinc-800/70 transition block">
+                Movies Only
               </Link>
-              <Link href="/movies?mediaType=SERIES" className="flex items-center gap-2.5 px-4 py-2.5 text-sm text-gray-300 hover:text-white hover:bg-zinc-800/70 transition">
-                <span>📺</span> Series
+              <Link href="/movies?mediaType=SERIES" className="px-4 py-2.5 text-sm text-gray-300 hover:text-white hover:bg-zinc-800/70 transition block">
+                Series
               </Link>
               <div className="border-t border-zinc-800 my-1" />
-              <Link href="/movies?priceType=FREE" className="flex items-center gap-2.5 px-4 py-2.5 text-sm text-gray-300 hover:text-white hover:bg-zinc-800/70 transition">
-                <span className="text-green-400">✓</span> Free
+              <Link href="/movies?priceType=FREE" className="px-4 py-2.5 text-sm text-gray-300 hover:text-white hover:bg-zinc-800/70 transition block">
+                Free
               </Link>
-              <Link href="/movies?priceType=PREMIUM" className="flex items-center gap-2.5 px-4 py-2.5 text-sm text-gray-300 hover:text-white hover:bg-zinc-800/70 transition">
-                <span className="text-yellow-400">💎</span> Premium
+              <Link href="/movies?priceType=PREMIUM" className="px-4 py-2.5 text-sm text-gray-300 hover:text-white hover:bg-zinc-800/70 transition block">
+                Premium
               </Link>
             </div>
           </HoverDropdown>
@@ -156,8 +156,8 @@ export default function Navbar() {
           <HoverDropdown label="Genres">
             <div className="w-48 bg-zinc-900 border border-zinc-700/70 rounded-xl shadow-2xl shadow-black/60 py-1.5">
               {GENRES.map((g) => (
-                <Link key={g} href={`/movies?genre=${encodeURIComponent(g)}`} className="flex items-center gap-2.5 px-4 py-2 text-sm text-gray-300 hover:text-white hover:bg-zinc-800/70 transition">
-                  <span className="w-1 h-1 bg-red-500 rounded-full flex-shrink-0" /> {g}
+                <Link key={g} href={`/movies?genre=${encodeURIComponent(g)}`} className="px-4 py-2 text-sm text-gray-300 hover:text-white hover:bg-zinc-800/70 transition block">
+                  {g}
                 </Link>
               ))}
             </div>
@@ -166,18 +166,18 @@ export default function Navbar() {
           {/* Special Categories hover dropdown */}
           <HoverDropdown label="Special Categories">
             <div className="w-52 bg-zinc-900 border border-zinc-700/70 rounded-xl shadow-2xl shadow-black/60 py-1.5">
-              <Link href="/movies?sort=releaseYear&order=desc" className="flex items-center gap-2.5 px-4 py-2.5 text-sm text-gray-300 hover:text-white hover:bg-zinc-800/70 transition">
-                <span>🆕</span> Newest Releases
+              <Link href="/movies?sort=releaseYear&order=desc" className="px-4 py-2.5 text-sm text-gray-300 hover:text-white hover:bg-zinc-800/70 transition block">
+                Newest Releases
               </Link>
-              <Link href="/movies?sort=createdAt&order=desc" className="flex items-center gap-2.5 px-4 py-2.5 text-sm text-gray-300 hover:text-white hover:bg-zinc-800/70 transition">
-                <span>⏰</span> Recently Added
+              <Link href="/movies?sort=createdAt&order=desc" className="px-4 py-2.5 text-sm text-gray-300 hover:text-white hover:bg-zinc-800/70 transition block">
+                Recently Added
               </Link>
-              <Link href="/movies?priceType=FREE&sort=createdAt&order=desc" className="flex items-center gap-2.5 px-4 py-2.5 text-sm text-gray-300 hover:text-white hover:bg-zinc-800/70 transition">
-                <span>🆓</span> Free to Watch
+              <Link href="/movies?priceType=FREE&sort=createdAt&order=desc" className="px-4 py-2.5 text-sm text-gray-300 hover:text-white hover:bg-zinc-800/70 transition block">
+                Free to Watch
               </Link>
               <div className="border-t border-zinc-800 my-1" />
-              <Link href="/subscription" className="flex items-center gap-2.5 px-4 py-2.5 text-sm text-yellow-400 hover:text-yellow-300 hover:bg-zinc-800/70 transition">
-                <span>👑</span> Premium Content
+              <Link href="/subscription" className="px-4 py-2.5 text-sm text-yellow-400 hover:text-yellow-300 hover:bg-zinc-800/70 transition block">
+                Premium Content
               </Link>
             </div>
           </HoverDropdown>
@@ -210,13 +210,13 @@ export default function Navbar() {
               <div className="absolute left-1/2 -translate-x-1/2 top-full pt-1 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-150 z-50">
                 <div className="w-48 bg-zinc-900 border border-zinc-700/70 rounded-xl shadow-2xl shadow-black/60 py-1.5">
                   {[
-                    { href: '/admin', label: 'Dashboard', icon: '📊' },
-                    { href: '/admin/movies', label: 'Movies', icon: '🎬' },
-                    { href: '/admin/reviews', label: 'Reviews', icon: '⭐' },
-                    { href: '/admin/users', label: 'Users', icon: '👥' },
+                    { href: '/admin', label: 'Dashboard' },
+                    { href: '/admin/movies', label: 'Movies' },
+                    { href: '/admin/reviews', label: 'Reviews' },
+                    { href: '/admin/users', label: 'Users' },
                   ].map((item) => (
-                    <Link key={item.href} href={item.href} className={`flex items-center gap-3 px-4 py-2.5 text-sm transition hover:bg-zinc-800/70 ${pathname === item.href ? 'text-red-400' : 'text-gray-300 hover:text-white'}`}>
-                      <span>{item.icon}</span> {item.label}
+                    <Link key={item.href} href={item.href} className={`block px-4 py-2.5 text-sm transition hover:bg-zinc-800/70 ${pathname === item.href ? 'text-red-400' : 'text-gray-300 hover:text-white'}`}>
+                      {item.label}
                     </Link>
                   ))}
                 </div>
@@ -297,13 +297,13 @@ export default function Navbar() {
                     <p className="text-gray-500 text-xs mt-0.5">{user.role}</p>
                   </div>
                   {[
-                    { href: '/profile', label: 'My Profile', icon: '👤' },
-                    { href: '/watchlist', label: 'My Watchlist', icon: '📋' },
-                    { href: '/my-reviews', label: 'My Reviews', icon: '⭐' },
-                    { href: '/subscription', label: 'Subscription', icon: '💎' },
+                    { href: '/profile', label: 'My Profile' },
+                    { href: '/watchlist', label: 'My Watchlist' },
+                    { href: '/my-reviews', label: 'My Reviews' },
+                    { href: '/subscription', label: 'Subscription' },
                   ].map((item) => (
-                    <Link key={item.href} href={item.href} onClick={() => setUserOpen(false)} className={`flex items-center gap-3 px-4 py-2.5 text-sm transition hover:bg-zinc-800/70 ${pathname === item.href ? 'text-red-400' : 'text-gray-300 hover:text-white'}`}>
-                      <span>{item.icon}</span> {item.label}
+                    <Link key={item.href} href={item.href} onClick={() => setUserOpen(false)} className={`block px-4 py-2.5 text-sm transition hover:bg-zinc-800/70 ${pathname === item.href ? 'text-red-400' : 'text-gray-300 hover:text-white'}`}>
+                      {item.label}
                     </Link>
                   ))}
                   <div className="border-t border-zinc-800 mt-1 pt-1">
