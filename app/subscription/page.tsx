@@ -9,27 +9,21 @@ import { Subscription } from '@/types';
 
 const PLANS = [
   {
-    id: 'BASIC',
-    name: 'Basic',
-    price: '$4.99/mo',
-    features: ['Access to all free movies', 'Write reviews', 'Build watchlist', '720p streaming'],
-    color: 'border-gray-500',
-    btnColor: 'bg-gray-600 hover:bg-gray-700',
-  },
-  {
-    id: 'STANDARD',
-    name: 'Standard',
-    price: '$9.99/mo',
-    features: ['Everything in Basic', 'Access to premium movies', '1080p streaming', 'Priority support'],
+    id: 'MONTHLY',
+    name: 'Monthly',
+    price: '$9.99',
+    period: 'per month',
+    features: ['Access all premium movies', 'Write & rate reviews', 'Build personal watchlist', '1080p streaming', 'Priority support'],
     color: 'border-red-600',
     btnColor: 'bg-red-600 hover:bg-red-700',
     popular: true,
   },
   {
-    id: 'PREMIUM',
-    name: 'Premium',
-    price: '$14.99/mo',
-    features: ['Everything in Standard', '4K Ultra HD streaming', 'Download for offline', 'Early access to new titles'],
+    id: 'YEARLY',
+    name: 'Yearly',
+    price: '$79.99',
+    period: 'per year',
+    features: ['Everything in Monthly', '4K Ultra HD streaming', 'Download for offline viewing', 'Early access to new titles', 'Save 33% vs monthly'],
     color: 'border-purple-500',
     btnColor: 'bg-purple-600 hover:bg-purple-700',
   },
@@ -116,7 +110,10 @@ export default function SubscriptionPage() {
               </span>
             )}
             <h2 className="text-2xl font-bold text-white">{plan.name}</h2>
-            <p className="text-3xl font-extrabold text-red-400 mt-2 mb-5">{plan.price}</p>
+            <div className="mt-2 mb-5">
+              <span className="text-3xl font-extrabold text-red-400">{plan.price}</span>
+              <span className="text-gray-500 text-sm ml-2">{plan.period}</span>
+            </div>
             <ul className="space-y-3 flex-1 mb-6">
               {plan.features.map((f) => (
                 <li key={f} className="flex items-start gap-2 text-gray-300 text-sm">
@@ -127,7 +124,7 @@ export default function SubscriptionPage() {
             <button
               onClick={() => handleSubscribe(plan.id)}
               disabled={!!subscribing || subscription?.plan === plan.id}
-              className={`w-full py-3 rounded-lg font-bold text-black transition disabled:opacity-50 ${plan.btnColor} ${plan.id !== 'BASIC' ? 'text-white' : ''}`}
+              className={`w-full py-3 rounded-lg font-bold text-white transition disabled:opacity-50 ${plan.btnColor}`}
             >
               {subscribing === plan.id ? 'Processing...' : subscription?.plan === plan.id ? 'Current Plan' : 'Subscribe'}
             </button>

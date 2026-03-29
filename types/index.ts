@@ -54,7 +54,7 @@ export interface Watchlist {
 
 export interface Subscription {
   id: string;
-  plan: 'BASIC' | 'STANDARD' | 'PREMIUM';
+  plan: 'MONTHLY' | 'YEARLY';
   status: 'ACTIVE' | 'CANCELLED' | 'EXPIRED';
   startDate: string;
   endDate: string;
