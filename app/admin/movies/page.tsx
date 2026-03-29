@@ -9,7 +9,7 @@ import { Movie } from '@/types';
 
 const emptyForm = {
   title: '', synopsis: '', genre: '', releaseYear: new Date().getFullYear(),
-  director: '', cast: '', thumbnail: '', streamingUrl: '', priceType: 'FREE', platform: '',
+  director: '', cast: '', thumbnail: '', streamingUrl: '', priceType: 'FREE', mediaType: 'MOVIE', platform: '',
 };
 
 export default function AdminMoviesPage() {
@@ -78,6 +78,7 @@ export default function AdminMoviesPage() {
       thumbnail: movie.posterUrl || '',
       streamingUrl: movie.streamingUrl || '',
       priceType: movie.priceType,
+      mediaType: (movie as Movie & { mediaType?: string }).mediaType || 'MOVIE',
       platform: movie.platform?.join(', ') || '',
     });
     setShowForm(true);
@@ -139,6 +140,13 @@ export default function AdminMoviesPage() {
                 <select value={form.priceType} onChange={(e) => setForm({ ...form, priceType: e.target.value })} className={inputClass}>
                   <option value="FREE">Free</option>
                   <option value="PREMIUM">Premium</option>
+                </select>
+              </div>
+              <div>
+                <label className="block text-xs text-gray-400 mb-1.5 font-semibold uppercase tracking-wide">Media Type</label>
+                <select value={form.mediaType} onChange={(e) => setForm({ ...form, mediaType: e.target.value })} className={inputClass}>
+                  <option value="MOVIE">🎥 Movie</option>
+                  <option value="SERIES">📺 Series</option>
                 </select>
               </div>
               <div>
