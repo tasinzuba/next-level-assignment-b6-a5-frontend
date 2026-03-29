@@ -32,6 +32,7 @@ export interface Review {
   rating: number;
   status: 'PENDING' | 'PUBLISHED' | 'UNPUBLISHED';
   spoiler: boolean;
+  tags?: string[];
   createdAt: string;
   user: { id: string; name: string };
   movie: { id: string; title: string; posterUrl: string };

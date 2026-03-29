@@ -16,7 +16,8 @@ export default function MovieDetailPage() {
   const [reviews, setReviews] = useState<Review[]>([]);
   const [loading, setLoading] = useState(true);
   const [inWatchlist, setInWatchlist] = useState(false);
-  const [reviewForm, setReviewForm] = useState({ title: '', content: '', rating: 5, spoiler: false });
+  const [reviewForm, setReviewForm] = useState({ title: '', content: '', rating: 5, spoiler: false, tags: [] as string[] });
+  const [tagInput, setTagInput] = useState('');
   const [submitting, setSubmitting] = useState(false);
   const [expandedReview, setExpandedReview] = useState<string | null>(null);
   const [comments, setComments] = useState<Record<string, Comment[]>>({});
@@ -94,7 +95,8 @@ export default function MovieDetailPage() {
     try {
       await api.post('/reviews', { ...reviewForm, movieId: id });
       toast.success('Review submitted! Pending approval.');
-      setReviewForm({ title: '', content: '', rating: 5, spoiler: false });
+      setReviewForm({ title: '', content: '', rating: 5, spoiler: false, tags: [] });
+      setTagInput('');
     } catch (err: unknown) {
       const error = err as { response?: { data?: { message?: string } } };
       toast.error(error.response?.data?.message || 'Failed to submit review');
@@ -236,7 +238,36 @@ export default function MovieDetailPage() {
                 Contains spoilers
               </label>
             </div>
-            <button type="submit" disabled={submitting} className="bg-red-600 hover:bg-red-700 text-black font-bold px-6 py-2 rounded-lg transition disabled:opacity-50">
+            {/* Tags */}
+            <div>
+              <label className="text-gray-300 text-sm block mb-2">Tags <span className="text-gray-500">(e.g. classic, underrated — press Enter)</span></label>
+              <div className="flex flex-wrap gap-2 mb-2">
+                {reviewForm.tags.map((tag) => (
+                  <span key={tag} className="bg-zinc-800 text-gray-300 text-xs px-2.5 py-1 rounded-full flex items-center gap-1">
+                    {tag}
+                    <button type="button" onClick={() => setReviewForm({ ...reviewForm, tags: reviewForm.tags.filter((t) => t !== tag) })} className="text-gray-500 hover:text-red-400 ml-1">×</button>
+                  </span>
+                ))}
+              </div>
+              <input
+                type="text"
+                placeholder="Add a tag..."
+                value={tagInput}
+                onChange={(e) => setTagInput(e.target.value)}
+                onKeyDown={(e) => {
+                  if (e.key === 'Enter') {
+                    e.preventDefault();
+                    const t = tagInput.trim().toLowerCase();
+                    if (t && !reviewForm.tags.includes(t) && reviewForm.tags.length < 5) {
+                      setReviewForm({ ...reviewForm, tags: [...reviewForm.tags, t] });
+                      setTagInput('');
+                    }
+                  }
+                }}
+                className="bg-zinc-900 text-white border border-zinc-800 rounded-lg px-4 py-2 text-sm focus:outline-none focus:border-red-600 w-full md:w-64"
+              />
+            </div>
+            <button type="submit" disabled={submitting} className="bg-red-600 hover:bg-red-700 text-white font-bold px-6 py-2 rounded-lg transition disabled:opacity-50">
               {submitting ? 'Submitting...' : 'Submit Review'}
             </button>
           </form>
@@ -264,6 +295,13 @@ export default function MovieDetailPage() {
                   <span className="text-red-400 font-bold text-xl">{'⭐'.repeat(review.rating)}</span>
                 </div>
                 {review.spoiler && <p className="text-red-400 text-xs mb-2">⚠ Spoiler Warning</p>}
+                {review.tags && review.tags.length > 0 && (
+                  <div className="flex flex-wrap gap-1.5 mb-3">
+                    {review.tags.map((tag) => (
+                      <span key={tag} className="bg-zinc-800 text-gray-400 text-xs px-2 py-0.5 rounded-full border border-zinc-700">#{tag}</span>
+                    ))}
+                  </div>
+                )}
                 <p className="text-gray-300 leading-relaxed">{review.content}</p>
 
                 <div className="flex items-center gap-4 mt-4">
