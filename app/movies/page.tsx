@@ -15,15 +15,17 @@ export default function MoviesPage() {
   const [priceType, setPriceType] = useState('');
   const [page, setPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
+  const [sort, setSort] = useState('createdAt');
+  const [order, setOrder] = useState('desc');
 
   useEffect(() => {
     fetchMovies();
-  }, [search, genre, priceType, page]);
+  }, [search, genre, priceType, page, sort, order]);
 
   const fetchMovies = async () => {
     setLoading(true);
     try {
-      const params: Record<string, string | number> = { page, limit: 12 };
+      const params: Record<string, string | number> = { page, limit: 12, sort, order };
       if (search) params.search = search;
       if (genre) params.genre = genre;
       if (priceType) params.priceType = priceType;
@@ -67,6 +69,20 @@ export default function MoviesPage() {
           <option value="">All Types</option>
           <option value="FREE">Free</option>
           <option value="PREMIUM">Premium</option>
+        </select>
+        <select
+          value={`${sort}-${order}`}
+          onChange={(e) => {
+            const [s, o] = e.target.value.split('-');
+            setSort(s); setOrder(o); setPage(1);
+          }}
+          className="bg-zinc-900 text-white border border-zinc-800 rounded-lg px-4 py-2 focus:outline-none focus:border-red-600"
+        >
+          <option value="createdAt-desc">Latest</option>
+          <option value="releaseYear-desc">Newest Release</option>
+          <option value="releaseYear-asc">Oldest Release</option>
+          <option value="title-asc">A → Z</option>
+          <option value="title-desc">Z → A</option>
         </select>
       </div>
 
