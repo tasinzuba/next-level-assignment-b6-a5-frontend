@@ -33,7 +33,8 @@ export default function HomeSidebar({ latestUpdates }: { latestUpdates: Movie[] 
                   <p className="text-white text-xs font-semibold line-clamp-2 group-hover:text-red-400 transition leading-snug">
                     {m.title}
                   </p>
-                  <p className="text-yellow-400 text-xs mt-1 font-semibold">
+                  <p className="text-red-400 text-xs mt-0.5 font-semibold">{m.releaseYear}</p>
+                  <p className="text-yellow-400 text-xs mt-0.5 font-semibold">
                     ★ {m.averageRating > 0 ? m.averageRating.toFixed(1) : 'N/A'}
                   </p>
                 </div>
