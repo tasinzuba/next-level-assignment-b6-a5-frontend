@@ -187,9 +187,14 @@ export default function MovieDetailPage() {
             >
               {inWatchlist ? '✓ In Watchlist' : '+ Add to Watchlist'}
             </button>
+            {movie.streamingUrl && (
+              <a href={movie.streamingUrl} target="_blank" rel="noreferrer" className="px-5 py-2 rounded-lg bg-red-700 hover:bg-red-600 text-white font-semibold transition flex items-center gap-2">
+                ▶ Watch Now
+              </a>
+            )}
             {movie.trailerUrl && (
-              <a href={movie.trailerUrl} target="_blank" rel="noreferrer" className="px-5 py-2 rounded-lg bg-zinc-800 hover:bg-gray-600 text-white transition">
-                Watch Trailer
+              <a href={movie.trailerUrl} target="_blank" rel="noreferrer" className="px-5 py-2 rounded-lg bg-zinc-800 hover:bg-zinc-700 text-white transition">
+                🎬 Watch Trailer
               </a>
             )}
           </div>

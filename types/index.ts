@@ -18,6 +18,7 @@ export interface Movie {
   cast: string[];
   posterUrl: string;
   trailerUrl?: string;
+  streamingUrl?: string;
   priceType: 'FREE' | 'PREMIUM';
   featured: boolean;
   averageRating: number;
