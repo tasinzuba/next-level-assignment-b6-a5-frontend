@@ -16,7 +16,7 @@ export default function MovieDetailPage() {
   const [reviews, setReviews] = useState<Review[]>([]);
   const [loading, setLoading] = useState(true);
   const [inWatchlist, setInWatchlist] = useState(false);
-  const [reviewForm, setReviewForm] = useState({ title: '', body: '', rating: 5, spoiler: false });
+  const [reviewForm, setReviewForm] = useState({ title: '', content: '', rating: 5, spoiler: false });
   const [submitting, setSubmitting] = useState(false);
   const [expandedReview, setExpandedReview] = useState<string | null>(null);
   const [comments, setComments] = useState<Record<string, Comment[]>>({});
@@ -41,7 +41,7 @@ export default function MovieDetailPage() {
 
   const fetchReviews = async () => {
     try {
-      const res = await api.get(`/reviews?movieId=${id}&status=APPROVED`);
+      const res = await api.get(`/reviews?movieId=${id}&status=PUBLISHED`);
       setReviews(res.data.data || []);
     } catch {
       setReviews([]);
@@ -74,7 +74,7 @@ export default function MovieDetailPage() {
     try {
       await api.post('/reviews', { ...reviewForm, movieId: id });
       toast.success('Review submitted! Pending approval.');
-      setReviewForm({ title: '', body: '', rating: 5, spoiler: false });
+      setReviewForm({ title: '', content: '', rating: 5, spoiler: false });
     } catch (err: unknown) {
       const error = err as { response?: { data?: { message?: string } } };
       toast.error(error.response?.data?.message || 'Failed to submit review');
@@ -191,8 +191,8 @@ export default function MovieDetailPage() {
               required
               rows={4}
               placeholder="Share your thoughts..."
-              value={reviewForm.body}
-              onChange={(e) => setReviewForm({ ...reviewForm, body: e.target.value })}
+              value={reviewForm.content}
+              onChange={(e) => setReviewForm({ ...reviewForm, content: e.target.value })}
               className="w-full bg-zinc-900 text-white border border-zinc-800 rounded-lg px-4 py-3 focus:outline-none focus:border-red-600 resize-none"
             />
             <div className="flex items-center gap-6 flex-wrap">
@@ -244,7 +244,7 @@ export default function MovieDetailPage() {
                   <span className="text-red-400 font-bold text-xl">{'⭐'.repeat(review.rating)}</span>
                 </div>
                 {review.spoiler && <p className="text-red-400 text-xs mb-2">⚠ Spoiler Warning</p>}
-                <p className="text-gray-300 leading-relaxed">{review.body}</p>
+                <p className="text-gray-300 leading-relaxed">{review.content}</p>
 
                 <button
                   onClick={() => loadComments(review.id)}

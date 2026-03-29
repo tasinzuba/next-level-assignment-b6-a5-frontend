@@ -49,7 +49,7 @@ export default function SubscriptionPage() {
 
   const fetchSubscription = async () => {
     try {
-      const res = await api.get('/subscriptions/me');
+      const res = await api.get('/subscription');
       setSubscription(res.data.data);
     } catch {
       setSubscription(null);
@@ -63,7 +63,7 @@ export default function SubscriptionPage() {
     try {
       const endDate = new Date();
       endDate.setMonth(endDate.getMonth() + 1);
-      await api.post('/subscriptions', { plan, endDate: endDate.toISOString() });
+      await api.post('/subscription', { plan, endDate: endDate.toISOString() });
       toast.success(`Subscribed to ${plan} plan!`);
       fetchSubscription();
     } catch (err: unknown) {
@@ -77,7 +77,7 @@ export default function SubscriptionPage() {
   const handleCancel = async () => {
     if (!confirm('Cancel your subscription?')) return;
     try {
-      await api.put('/subscriptions/cancel');
+      await api.delete('/subscription');
       toast.success('Subscription cancelled');
       fetchSubscription();
     } catch {

@@ -30,7 +30,7 @@ export default function AdminUsersPage() {
 
   const handleRoleChange = async (userId: string, role: 'USER' | 'ADMIN') => {
     try {
-      await api.put(`/admin/users/${userId}/role`, { role });
+      await api.patch(`/admin/users/${userId}/role`, { role });
       setUsers(users.map((u) => u.id === userId ? { ...u, role } : u));
       toast.success('Role updated!');
     } catch {

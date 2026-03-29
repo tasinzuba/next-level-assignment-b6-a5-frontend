@@ -14,7 +14,7 @@ export default function MyReviewsPage() {
   const [reviews, setReviews] = useState<Review[]>([]);
   const [loading, setLoading] = useState(true);
   const [editId, setEditId] = useState<string | null>(null);
-  const [editForm, setEditForm] = useState({ title: '', body: '', rating: 5 });
+  const [editForm, setEditForm] = useState({ title: '', content: '', rating: 5 });
   const [saving, setSaving] = useState(false);
 
   useEffect(() => {
@@ -35,7 +35,7 @@ export default function MyReviewsPage() {
 
   const handleEdit = (review: Review) => {
     setEditId(review.id);
-    setEditForm({ title: review.title, body: review.body, rating: review.rating });
+    setEditForm({ title: review.title, content: review.content, rating: review.rating });
   };
 
   const handleUpdate = async (e: React.FormEvent) => {
@@ -67,9 +67,9 @@ export default function MyReviewsPage() {
   };
 
   const statusColor = (status: string) => {
-    if (status === 'APPROVED') return 'bg-green-700 text-white';
-    if (status === 'REJECTED') return 'bg-red-700 text-white';
-    return 'bg-red-700 text-black';
+    if (status === 'PUBLISHED') return 'bg-green-700 text-white';
+    if (status === 'UNPUBLISHED') return 'bg-red-700 text-white';
+    return 'bg-yellow-600 text-black';
   };
 
   if (loading) {
@@ -111,8 +111,8 @@ export default function MyReviewsPage() {
                   <textarea
                     required
                     rows={4}
-                    value={editForm.body}
-                    onChange={(e) => setEditForm({ ...editForm, body: e.target.value })}
+                    value={editForm.content}
+                    onChange={(e) => setEditForm({ ...editForm, content: e.target.value })}
                     className="w-full bg-zinc-900 text-white border border-zinc-800 rounded-lg px-4 py-2.5 focus:outline-none focus:border-red-600 resize-none"
                     placeholder="Your review..."
                   />
@@ -155,11 +155,11 @@ export default function MyReviewsPage() {
                     </div>
                   </div>
 
-                  <p className="text-gray-300 text-sm leading-relaxed mb-4">{review.body}</p>
+                  <p className="text-gray-300 text-sm leading-relaxed mb-4">{review.content}</p>
 
                   {/* Actions — only for PENDING reviews */}
                   <div className="flex gap-3">
-                    {review.status === 'PENDING' && (
+                    {review.status !== 'PUBLISHED' && (
                       <button
                         onClick={() => handleEdit(review)}
                         className="text-sm bg-zinc-800 hover:bg-gray-600 text-white px-4 py-1.5 rounded-lg transition"
@@ -175,7 +175,7 @@ export default function MyReviewsPage() {
                     </button>
                   </div>
 
-                  {review.status === 'APPROVED' && (
+                  {review.status === 'PUBLISHED' && (
                     <p className="text-xs text-gray-500 mt-3">✓ Published review cannot be edited</p>
                   )}
                 </div>

@@ -7,13 +7,13 @@ import api from '@/lib/api';
 import { useAuthStore } from '@/store/authStore';
 import { Review } from '@/types';
 
-const FILTERS = ['PENDING', 'APPROVED', 'REJECTED'] as const;
+const FILTERS = ['PENDING', 'PUBLISHED', 'UNPUBLISHED'] as const;
 type FilterType = typeof FILTERS[number];
 
 const filterStyle: Record<FilterType, string> = {
   PENDING: 'bg-yellow-500/20 text-yellow-400 border-yellow-500/30',
-  APPROVED: 'bg-emerald-500/20 text-emerald-400 border-emerald-500/30',
-  REJECTED: 'bg-red-500/20 text-red-400 border-red-500/30',
+  PUBLISHED: 'bg-emerald-500/20 text-emerald-400 border-emerald-500/30',
+  UNPUBLISHED: 'bg-red-500/20 text-red-400 border-red-500/30',
 };
 
 export default function AdminReviewsPage() {
@@ -31,17 +31,18 @@ export default function AdminReviewsPage() {
   const fetchReviews = async () => {
     setLoading(true);
     try {
-      const res = await api.get(`/admin/reviews?status=${filter}`);
-      setReviews(res.data.data || []);
+      const res = await api.get(`/admin/reviews/pending`);
+      const all = res.data.data || [];
+      setReviews(filter === 'PENDING' ? all : all.filter((r: Review) => r.status === filter));
     } finally {
       setLoading(false);
     }
   };
 
-  const handleModerate = async (id: string, status: 'APPROVED' | 'REJECTED') => {
+  const handleModerate = async (id: string, status: 'PUBLISHED' | 'UNPUBLISHED') => {
     try {
-      await api.put(`/reviews/${id}/approve`, { status });
-      toast.success(`Review ${status === 'APPROVED' ? 'approved' : 'rejected'}!`);
+      await api.patch(`/reviews/${id}/status`, { status });
+      toast.success(`Review ${status === 'PUBLISHED' ? 'approved' : 'rejected'}!`);
       setReviews(reviews.filter((r) => r.id !== id));
     } catch {
       toast.error('Failed to update review');
@@ -118,19 +119,19 @@ export default function AdminReviewsPage() {
               </div>
 
               <p className="text-gray-300 text-sm leading-relaxed line-clamp-3 bg-zinc-900 rounded-lg p-3 border border-zinc-800">
-                {review.body}
+                {review.content}
               </p>
 
               {review.status === 'PENDING' && (
                 <div className="flex gap-3 mt-4">
                   <button
-                    onClick={() => handleModerate(review.id, 'APPROVED')}
+                    onClick={() => handleModerate(review.id, 'PUBLISHED')}
                     className="bg-emerald-600 hover:bg-emerald-500 text-white px-5 py-2 rounded-lg text-sm font-semibold transition"
                   >
                     ✓ Approve
                   </button>
                   <button
-                    onClick={() => handleModerate(review.id, 'REJECTED')}
+                    onClick={() => handleModerate(review.id, 'UNPUBLISHED')}
                     className="bg-zinc-700 hover:bg-zinc-600 text-white px-5 py-2 rounded-lg text-sm font-semibold transition"
                   >
                     ✕ Reject

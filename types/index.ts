@@ -28,9 +28,9 @@ export interface Movie {
 export interface Review {
   id: string;
   title: string;
-  body: string;
+  content: string;
   rating: number;
-  status: 'PENDING' | 'APPROVED' | 'REJECTED';
+  status: 'PENDING' | 'PUBLISHED' | 'UNPUBLISHED';
   spoiler: boolean;
   createdAt: string;
   user: { id: string; name: string };
