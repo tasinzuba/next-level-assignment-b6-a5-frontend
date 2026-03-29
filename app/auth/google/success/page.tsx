@@ -1,11 +1,11 @@
 'use client';
 
-import { useEffect } from 'react';
+import { useEffect, Suspense } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { useAuthStore } from '@/store/authStore';
 import toast from 'react-hot-toast';
 
-export default function GoogleSuccessPage() {
+function GoogleSuccessContent() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const setAuth = useAuthStore((s) => s.setAuth);
@@ -38,5 +38,17 @@ export default function GoogleSuccessPage() {
         <p className="text-gray-400">Completing sign in...</p>
       </div>
     </div>
+  );
+}
+
+export default function GoogleSuccessPage() {
+  return (
+    <Suspense fallback={
+      <div className="min-h-screen flex items-center justify-center bg-black">
+        <div className="w-10 h-10 border-2 border-red-600 border-t-transparent rounded-full animate-spin" />
+      </div>
+    }>
+      <GoogleSuccessContent />
+    </Suspense>
   );
 }

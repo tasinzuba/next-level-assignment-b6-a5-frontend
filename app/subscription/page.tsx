@@ -1,7 +1,7 @@
 'use client';
 
-import { useEffect, useState } from 'react';
-import { useRouter } from 'next/navigation';
+import { useEffect, useState, Suspense } from 'react';
+import { useRouter, useSearchParams } from 'next/navigation';
 import toast from 'react-hot-toast';
 import api from '@/lib/api';
 import { useAuthStore } from '@/store/authStore';
@@ -29,17 +29,36 @@ const PLANS = [
   },
 ];
 
-export default function SubscriptionPage() {
+function SubscriptionContent() {
   const router = useRouter();
+  const searchParams = useSearchParams();
   const { user } = useAuthStore();
   const [subscription, setSubscription] = useState<Subscription | null>(null);
   const [loading, setLoading] = useState(true);
-  const [subscribing, setSubscribing] = useState('');
+  const [paying, setPaying] = useState('');
 
   useEffect(() => {
     if (!user) { router.push('/login'); return; }
     fetchSubscription();
   }, [user]);
+
+  // Handle payment callback
+  useEffect(() => {
+    const payment = searchParams.get('payment');
+    if (!payment) return;
+    if (payment === 'success') {
+      toast.success('Payment successful! Subscription activated.');
+      fetchSubscription();
+    } else if (payment === 'failed') {
+      toast.error('Payment failed. Please try again.');
+    } else if (payment === 'cancelled') {
+      toast.error('Payment cancelled.');
+    } else if (payment === 'invalid') {
+      toast.error('Payment validation failed.');
+    }
+    // Clean up URL
+    router.replace('/subscription');
+  }, [searchParams]);
 
   const fetchSubscription = async () => {
     try {
@@ -52,19 +71,20 @@ export default function SubscriptionPage() {
     }
   };
 
-  const handleSubscribe = async (plan: string) => {
-    setSubscribing(plan);
+  const handlePay = async (plan: string) => {
+    setPaying(plan);
     try {
-      const endDate = new Date();
-      endDate.setMonth(endDate.getMonth() + 1);
-      await api.post('/subscription', { plan, endDate: endDate.toISOString() });
-      toast.success(`Subscribed to ${plan} plan!`);
-      fetchSubscription();
+      const res = await api.post('/payment/initiate', { plan });
+      if (res.data.url) {
+        window.location.href = res.data.url;
+      } else {
+        toast.error('Failed to initiate payment.');
+        setPaying('');
+      }
     } catch (err: unknown) {
       const error = err as { response?: { data?: { message?: string } } };
-      toast.error(error.response?.data?.message || 'Subscription failed');
-    } finally {
-      setSubscribing('');
+      toast.error(error.response?.data?.message || 'Payment initiation failed');
+      setPaying('');
     }
   };
 
@@ -101,36 +121,72 @@ export default function SubscriptionPage() {
         </div>
       )}
 
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-        {PLANS.map((plan) => (
-          <div key={plan.id} className={`bg-gray-900 border-2 ${plan.color} rounded-xl p-7 flex flex-col relative`}>
-            {plan.popular && (
-              <span className="absolute -top-3 left-1/2 -translate-x-1/2 bg-red-600 text-black text-xs font-bold px-3 py-1 rounded-full">
-                Most Popular
-              </span>
-            )}
-            <h2 className="text-2xl font-bold text-white">{plan.name}</h2>
-            <div className="mt-2 mb-5">
-              <span className="text-3xl font-extrabold text-red-400">{plan.price}</span>
-              <span className="text-gray-500 text-sm ml-2">{plan.period}</span>
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-2xl mx-auto">
+        {PLANS.map((plan) => {
+          const isActive = subscription?.status === 'ACTIVE' && subscription?.plan === plan.id;
+          const isPaying = paying === plan.id;
+
+          return (
+            <div key={plan.id} className={`bg-zinc-950 border-2 ${plan.color} rounded-xl p-7 flex flex-col relative`}>
+              {plan.popular && (
+                <span className="absolute -top-3 left-1/2 -translate-x-1/2 bg-red-600 text-white text-xs font-bold px-3 py-1 rounded-full">
+                  Most Popular
+                </span>
+              )}
+              <h2 className="text-2xl font-bold text-white">{plan.name}</h2>
+              <div className="mt-2 mb-5">
+                <span className="text-3xl font-extrabold text-red-400">{plan.price}</span>
+                <span className="text-gray-500 text-sm ml-2">{plan.period}</span>
+              </div>
+              <ul className="space-y-3 flex-1 mb-6">
+                {plan.features.map((f) => (
+                  <li key={f} className="flex items-start gap-2 text-gray-300 text-sm">
+                    <span className="text-green-400 mt-0.5">✓</span> {f}
+                  </li>
+                ))}
+              </ul>
+
+              {isActive ? (
+                <div className="w-full py-3 rounded-lg font-bold text-center text-green-400 border border-green-600 bg-green-900/20 text-sm">
+                  Current Plan ✓
+                </div>
+              ) : (
+                <button
+                  onClick={() => handlePay(plan.id)}
+                  disabled={!!paying}
+                  className={`w-full py-3 rounded-lg font-bold text-white transition disabled:opacity-50 flex items-center justify-center gap-2 ${plan.btnColor}`}
+                >
+                  {isPaying ? (
+                    <>
+                      <svg className="w-4 h-4 animate-spin" fill="none" viewBox="0 0 24 24">
+                        <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
+                        <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z" />
+                      </svg>
+                      Redirecting...
+                    </>
+                  ) : (
+                    <>Pay with SSLCommerz</>
+                  )}
+                </button>
+              )}
             </div>
-            <ul className="space-y-3 flex-1 mb-6">
-              {plan.features.map((f) => (
-                <li key={f} className="flex items-start gap-2 text-gray-300 text-sm">
-                  <span className="text-green-400 mt-0.5">✓</span> {f}
-                </li>
-              ))}
-            </ul>
-            <button
-              onClick={() => handleSubscribe(plan.id)}
-              disabled={!!subscribing || subscription?.plan === plan.id}
-              className={`w-full py-3 rounded-lg font-bold text-white transition disabled:opacity-50 ${plan.btnColor}`}
-            >
-              {subscribing === plan.id ? 'Processing...' : subscription?.plan === plan.id ? 'Current Plan' : 'Subscribe'}
-            </button>
-          </div>
-        ))}
+          );
+        })}
+      </div>
+
+      {/* Payment info */}
+      <div className="mt-10 text-center">
+        <p className="text-gray-600 text-xs">Secured by SSLCommerz · Visa · Mastercard · bKash · Nagad · Rocket</p>
+        <p className="text-gray-700 text-xs mt-1">100% secure payment gateway</p>
       </div>
     </div>
+  );
+}
+
+export default function SubscriptionPage() {
+  return (
+    <Suspense fallback={<div className="max-w-5xl mx-auto px-4 py-16 text-center text-gray-500">Loading...</div>}>
+      <SubscriptionContent />
+    </Suspense>
   );
 }
