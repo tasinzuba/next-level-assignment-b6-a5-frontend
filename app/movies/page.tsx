@@ -1,26 +1,42 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useEffect, useState, Suspense } from 'react';
+import { useSearchParams, useRouter } from 'next/navigation';
 import api from '@/lib/api';
 import { Movie } from '@/types';
 import MovieCard from '@/components/MovieCard';
 
-const GENRES = ['Action', 'Comedy', 'Drama', 'Horror', 'Thriller', 'Sci-Fi', 'Romance', 'Animation'];
+const GENRES = ['Action', 'Comedy', 'Drama', 'Horror', 'Thriller', 'Sci-Fi', 'Romance', 'Animation', 'Crime', 'Documentary'];
 
-export default function MoviesPage() {
+function MoviesContent() {
+  const searchParams = useSearchParams();
+  const router = useRouter();
+
   const [movies, setMovies] = useState<Movie[]>([]);
   const [loading, setLoading] = useState(true);
-  const [search, setSearch] = useState('');
-  const [genre, setGenre] = useState('');
-  const [priceType, setPriceType] = useState('');
+  const [search, setSearch] = useState(searchParams.get('search') || '');
+  const [genre, setGenre] = useState(searchParams.get('genre') || '');
+  const [priceType, setPriceType] = useState(searchParams.get('priceType') || '');
+  const [mediaType, setMediaType] = useState(searchParams.get('mediaType') || '');
   const [page, setPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
-  const [sort, setSort] = useState('createdAt');
-  const [order, setOrder] = useState('desc');
+  const [sort, setSort] = useState(searchParams.get('sort') || 'createdAt');
+  const [order, setOrder] = useState(searchParams.get('order') || 'desc');
 
   useEffect(() => {
     fetchMovies();
-  }, [search, genre, priceType, page, sort, order]);
+  }, [search, genre, priceType, mediaType, page, sort, order]);
+
+  // Sync URL params on mount
+  useEffect(() => {
+    setSearch(searchParams.get('search') || '');
+    setGenre(searchParams.get('genre') || '');
+    setPriceType(searchParams.get('priceType') || '');
+    setMediaType(searchParams.get('mediaType') || '');
+    setSort(searchParams.get('sort') || 'createdAt');
+    setOrder(searchParams.get('order') || 'desc');
+    setPage(1);
+  }, [searchParams]);
 
   const fetchMovies = async () => {
     setLoading(true);
@@ -29,10 +45,11 @@ export default function MoviesPage() {
       if (search) params.search = search;
       if (genre) params.genre = genre;
       if (priceType) params.priceType = priceType;
+      if (mediaType) params.mediaType = mediaType;
 
       const res = await api.get('/movies', { params });
       setMovies(res.data.data || []);
-      setTotalPages(res.data.pagination?.totalPages || 1);
+      setTotalPages(res.data.pagination?.pages || 1);
     } catch {
       setMovies([]);
     } finally {
@@ -40,85 +57,112 @@ export default function MoviesPage() {
     }
   };
 
+  const pageTitle = mediaType === 'SERIES' ? 'All Series' : mediaType === 'MOVIE' ? 'All Movies' : 'Movies & Series';
+
+  const selectClass = "bg-zinc-900 text-white border border-zinc-800 rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-red-600 cursor-pointer";
+
   return (
     <div className="max-w-7xl mx-auto px-4 py-10">
-      <h1 className="text-4xl font-bold text-white mb-8">All Movies</h1>
+      <div className="flex items-center justify-between mb-6 flex-wrap gap-3">
+        <h1 className="text-3xl font-bold text-white">{pageTitle}</h1>
+        {/* Media type tabs */}
+        <div className="flex bg-zinc-900 p-1 rounded-xl gap-1">
+          {[
+            { val: '', label: 'All' },
+            { val: 'MOVIE', label: '🎥 Movies' },
+            { val: 'SERIES', label: '📺 Series' },
+          ].map((t) => (
+            <button
+              key={t.val}
+              onClick={() => { setMediaType(t.val); setPage(1); }}
+              className={`px-4 py-1.5 rounded-lg text-sm font-semibold transition ${mediaType === t.val ? 'bg-red-600 text-white' : 'text-gray-400 hover:text-white'}`}
+            >
+              {t.label}
+            </button>
+          ))}
+        </div>
+      </div>
 
       {/* Filters */}
-      <div className="flex flex-wrap gap-4 mb-8">
+      <div className="flex flex-wrap gap-3 mb-8 bg-zinc-950 border border-zinc-800 rounded-xl p-4">
         <input
           type="text"
-          placeholder="Search movies..."
+          placeholder="Search title, director, cast..."
           value={search}
           onChange={(e) => { setSearch(e.target.value); setPage(1); }}
-          className="bg-zinc-900 text-white border border-zinc-800 rounded-lg px-4 py-2 focus:outline-none focus:border-red-600 flex-1 min-w-[200px]"
+          className="bg-zinc-900 text-white border border-zinc-800 rounded-lg px-4 py-2 text-sm focus:outline-none focus:border-red-600 flex-1 min-w-[200px]"
         />
-        <select
-          value={genre}
-          onChange={(e) => { setGenre(e.target.value); setPage(1); }}
-          className="bg-zinc-900 text-white border border-zinc-800 rounded-lg px-4 py-2 focus:outline-none focus:border-red-600"
-        >
+        <select value={genre} onChange={(e) => { setGenre(e.target.value); setPage(1); }} className={selectClass}>
           <option value="">All Genres</option>
           {GENRES.map((g) => <option key={g} value={g}>{g}</option>)}
         </select>
-        <select
-          value={priceType}
-          onChange={(e) => { setPriceType(e.target.value); setPage(1); }}
-          className="bg-zinc-900 text-white border border-zinc-800 rounded-lg px-4 py-2 focus:outline-none focus:border-red-600"
-        >
-          <option value="">All Types</option>
-          <option value="FREE">Free</option>
-          <option value="PREMIUM">Premium</option>
+        <select value={priceType} onChange={(e) => { setPriceType(e.target.value); setPage(1); }} className={selectClass}>
+          <option value="">Free & Premium</option>
+          <option value="FREE">Free Only</option>
+          <option value="PREMIUM">Premium Only</option>
         </select>
         <select
           value={`${sort}-${order}`}
-          onChange={(e) => {
-            const [s, o] = e.target.value.split('-');
-            setSort(s); setOrder(o); setPage(1);
-          }}
-          className="bg-zinc-900 text-white border border-zinc-800 rounded-lg px-4 py-2 focus:outline-none focus:border-red-600"
+          onChange={(e) => { const [s, o] = e.target.value.split('-'); setSort(s); setOrder(o); setPage(1); }}
+          className={selectClass}
         >
-          <option value="createdAt-desc">Latest</option>
+          <option value="createdAt-desc">Latest Added</option>
           <option value="releaseYear-desc">Newest Release</option>
           <option value="releaseYear-asc">Oldest Release</option>
           <option value="title-asc">A → Z</option>
           <option value="title-desc">Z → A</option>
         </select>
+        {(search || genre || priceType || mediaType) && (
+          <button
+            onClick={() => { setSearch(''); setGenre(''); setPriceType(''); setMediaType(''); setPage(1); router.push('/movies'); }}
+            className="px-3 py-2 text-sm text-gray-400 hover:text-white border border-zinc-700 hover:border-zinc-500 rounded-lg transition"
+          >
+            Clear ✕
+          </button>
+        )}
       </div>
 
       {loading ? (
-        <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-6">
+        <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-4">
           {Array.from({ length: 12 }).map((_, i) => (
-            <div key={i} className="bg-zinc-900 rounded-lg aspect-[2/3] animate-pulse" />
+            <div key={i} className="bg-zinc-900 rounded-xl aspect-[2/3] animate-pulse" />
           ))}
         </div>
       ) : movies.length > 0 ? (
         <>
-          <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-6">
+          <p className="text-gray-500 text-sm mb-4">{totalPages > 1 ? `Page ${page} of ${totalPages}` : `${movies.length} result${movies.length !== 1 ? 's' : ''}`}</p>
+          <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-4">
             {movies.map((movie) => <MovieCard key={movie.id} movie={movie} />)}
           </div>
-          {/* Pagination */}
-          <div className="flex justify-center gap-3 mt-10">
-            <button
-              onClick={() => setPage((p) => Math.max(1, p - 1))}
-              disabled={page === 1}
-              className="px-4 py-2 bg-zinc-900 rounded disabled:opacity-40 hover:bg-zinc-800 transition"
-            >
-              ← Prev
-            </button>
-            <span className="px-4 py-2 text-gray-400">Page {page} of {totalPages}</span>
-            <button
-              onClick={() => setPage((p) => Math.min(totalPages, p + 1))}
-              disabled={page === totalPages}
-              className="px-4 py-2 bg-zinc-900 rounded disabled:opacity-40 hover:bg-zinc-800 transition"
-            >
-              Next →
-            </button>
-          </div>
+          {totalPages > 1 && (
+            <div className="flex justify-center gap-2 mt-10">
+              <button onClick={() => setPage((p) => Math.max(1, p - 1))} disabled={page === 1} className="px-4 py-2 bg-zinc-900 rounded-lg text-sm text-gray-300 disabled:opacity-40 hover:bg-zinc-800 transition">← Prev</button>
+              {Array.from({ length: Math.min(totalPages, 5) }, (_, i) => {
+                const p = page <= 3 ? i + 1 : page - 2 + i;
+                if (p < 1 || p > totalPages) return null;
+                return (
+                  <button key={p} onClick={() => setPage(p)} className={`px-4 py-2 rounded-lg text-sm transition ${p === page ? 'bg-red-600 text-white' : 'bg-zinc-900 text-gray-300 hover:bg-zinc-800'}`}>{p}</button>
+                );
+              })}
+              <button onClick={() => setPage((p) => Math.min(totalPages, p + 1))} disabled={page === totalPages} className="px-4 py-2 bg-zinc-900 rounded-lg text-sm text-gray-300 disabled:opacity-40 hover:bg-zinc-800 transition">Next →</button>
+            </div>
+          )}
         </>
       ) : (
-        <p className="text-gray-400 text-center py-20">No movies found.</p>
+        <div className="text-center py-20">
+          <p className="text-5xl mb-4">🎬</p>
+          <p className="text-gray-400 text-lg">No results found.</p>
+          <p className="text-gray-600 text-sm mt-2">Try different filters or search terms.</p>
+        </div>
       )}
     </div>
+  );
+}
+
+export default function MoviesPage() {
+  return (
+    <Suspense fallback={<div className="max-w-7xl mx-auto px-4 py-10"><div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-4">{Array.from({length:12}).map((_,i)=><div key={i} className="bg-zinc-900 rounded-xl aspect-[2/3] animate-pulse"/>)}</div></div>}>
+      <MoviesContent />
+    </Suspense>
   );
 }
