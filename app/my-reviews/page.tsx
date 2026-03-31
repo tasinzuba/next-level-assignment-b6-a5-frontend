@@ -67,9 +67,9 @@ export default function MyReviewsPage() {
   };
 
   const statusColor = (status: string) => {
-    if (status === 'PUBLISHED') return 'bg-green-700 text-white';
+    if (status === 'PUBLISHED') return 'bg-emerald-700 text-white';
     if (status === 'UNPUBLISHED') return 'bg-red-700 text-white';
-    return 'bg-yellow-600 text-black';
+    return 'bg-amber-600 text-black';
   };
 
   if (loading) {
@@ -89,7 +89,7 @@ export default function MyReviewsPage() {
       {reviews.length === 0 ? (
         <div className="text-center py-20">
           <p className="text-gray-400 text-xl mb-4">You haven&apos;t written any reviews yet.</p>
-          <Link href="/movies" className="bg-red-600 hover:bg-red-700 text-black font-bold px-6 py-3 rounded-lg transition">
+          <Link href="/movies" className="bg-red-600 hover:bg-red-500 text-white font-bold px-6 py-3 rounded-lg transition">
             Browse Movies
           </Link>
         </div>
@@ -124,10 +124,10 @@ export default function MyReviewsPage() {
                         onChange={(e) => setEditForm({ ...editForm, rating: Number(e.target.value) })}
                         className="bg-zinc-900 text-white border border-zinc-800 rounded px-3 py-1.5"
                       >
-                        {[1,2,3,4,5,6,7,8,9,10].map((r) => <option key={r} value={r}>{r} ⭐</option>)}
+                        {[1,2,3,4,5,6,7,8,9,10].map((r) => <option key={r} value={r}>{r} / 10</option>)}
                       </select>
                     </div>
-                    <button type="submit" disabled={saving} className="bg-red-600 hover:bg-red-700 text-black font-bold px-5 py-2 rounded-lg transition disabled:opacity-50">
+                    <button type="submit" disabled={saving} className="bg-red-600 hover:bg-red-500 text-white font-bold px-5 py-2 rounded-lg transition disabled:opacity-50">
                       {saving ? 'Saving...' : 'Save'}
                     </button>
                     <button type="button" onClick={() => setEditId(null)} className="text-gray-400 hover:text-white transition">
@@ -147,7 +147,11 @@ export default function MyReviewsPage() {
                       <p className="text-gray-500 text-xs mt-0.5">{new Date(review.createdAt).toLocaleDateString()}</p>
                     </div>
                     <div className="flex items-center gap-3 flex-shrink-0">
-                      <span className="text-red-400 font-bold">{'⭐'.repeat(Math.min(review.rating, 5))}</span>
+                      <span className="flex items-center gap-0.5">
+                        {Array.from({ length: Math.min(review.rating, 5) }).map((_, i) => (
+                          <svg key={i} className="w-3.5 h-3.5 text-yellow-400" fill="currentColor" viewBox="0 0 24 24"><path d="M11.049 2.927c.3-.921 1.603-.921 1.902 0l1.519 4.674a1 1 0 00.95.69h4.915c.969 0 1.371 1.24.588 1.81l-3.976 2.888a1 1 0 00-.363 1.118l1.518 4.674c.3.922-.755 1.688-1.538 1.118l-3.976-2.888a1 1 0 00-1.176 0l-3.976 2.888c-.783.57-1.838-.197-1.538-1.118l1.518-4.674a1 1 0 00-.363-1.118l-3.976-2.888c-.784-.57-.38-1.81.588-1.81h4.914a1 1 0 00.951-.69l1.519-4.674z" /></svg>
+                        ))}
+                      </span>
                       <span className="text-gray-300 text-sm font-semibold">{review.rating}/10</span>
                       <span className={`text-xs px-2 py-1 rounded font-bold ${statusColor(review.status)}`}>
                         {review.status}
@@ -162,16 +166,16 @@ export default function MyReviewsPage() {
                     {review.status !== 'PUBLISHED' && (
                       <button
                         onClick={() => handleEdit(review)}
-                        className="text-sm bg-zinc-800 hover:bg-gray-600 text-white px-4 py-1.5 rounded-lg transition"
+                        className="text-sm bg-zinc-800 hover:bg-zinc-700 text-white px-4 py-1.5 rounded-lg transition"
                       >
-                        ✏️ Edit
+                        Edit
                       </button>
                     )}
                     <button
                       onClick={() => handleDelete(review.id)}
                       className="text-sm bg-red-700 hover:bg-red-600 text-white px-4 py-1.5 rounded-lg transition"
                     >
-                      🗑️ Delete
+                      Delete
                     </button>
                   </div>
 

@@ -49,7 +49,11 @@ export default function HeroSlider({ movies }: { movies: Movie[] }) {
                 className="w-full h-full object-cover group-hover:scale-105 transition duration-500"
               />
             ) : (
-              <div className="w-full h-full bg-zinc-900 flex items-center justify-center text-6xl">🎬</div>
+              <div className="w-full h-full bg-zinc-900 flex items-center justify-center">
+                <svg className="w-16 h-16 text-zinc-700" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M7 4v16M17 4v16M3 8h4m10 0h4M3 12h18M3 16h4m10 0h4M4 20h16a1 1 0 001-1V5a1 1 0 00-1-1H4a1 1 0 00-1 1v14a1 1 0 001 1z" />
+                </svg>
+              </div>
             )}
             {/* overlay */}
             <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/20 to-transparent" />
@@ -80,11 +84,11 @@ export default function HeroSlider({ movies }: { movies: Movie[] }) {
         <>
           <button
             onClick={prev}
-            className="absolute left-2 top-1/2 -translate-y-1/2 z-20 w-9 h-9 bg-black/70 hover:bg-black border border-zinc-600 rounded-full flex items-center justify-center text-white text-lg transition"
+            className="absolute left-2 top-1/2 -translate-y-1/2 z-20 w-9 h-9 bg-black/70 hover:bg-black border border-zinc-700 rounded-full flex items-center justify-center text-white text-lg transition"
           >‹</button>
           <button
             onClick={next}
-            className="absolute right-2 top-1/2 -translate-y-1/2 z-20 w-9 h-9 bg-black/70 hover:bg-black border border-zinc-600 rounded-full flex items-center justify-center text-white text-lg transition"
+            className="absolute right-2 top-1/2 -translate-y-1/2 z-20 w-9 h-9 bg-black/70 hover:bg-black border border-zinc-700 rounded-full flex items-center justify-center text-white text-lg transition"
           >›</button>
         </>
       )}

@@ -149,7 +149,11 @@ export default function MovieDetailPage() {
           {movie.posterUrl ? (
             <img src={movie.posterUrl} alt={movie.title} className="w-full rounded-xl shadow-2xl" />
           ) : (
-            <div className="w-full aspect-[2/3] bg-zinc-900 rounded-xl flex items-center justify-center text-6xl">🎬</div>
+            <div className="w-full aspect-[2/3] bg-zinc-900 rounded-xl flex items-center justify-center">
+              <svg className="w-16 h-16 text-zinc-700" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
+                <path strokeLinecap="round" strokeLinejoin="round" d="M7 4v16M17 4v16M3 8h4m10 0h4M3 12h18M3 16h4m10 0h4M4 20h16a1 1 0 001-1V5a1 1 0 00-1-1H4a1 1 0 00-1 1v14a1 1 0 001 1z" />
+              </svg>
+            </div>
           )}
         </div>
         <div className="flex-1">
@@ -158,13 +162,16 @@ export default function MovieDetailPage() {
               <h1 className="text-4xl font-bold text-white">{movie.title}</h1>
               <p className="text-gray-400 mt-1">{movie.releaseYear} • {movie.director}</p>
             </div>
-            <span className={`px-3 py-1 rounded-full text-sm font-bold ${movie.priceType === 'PREMIUM' ? 'bg-red-600 text-black' : 'bg-green-600 text-white'}`}>
+            <span className={`px-3 py-1 rounded-full text-sm font-bold ${movie.priceType === 'PREMIUM' ? 'bg-red-600 text-white' : 'bg-green-600 text-white'}`}>
               {movie.priceType}
             </span>
           </div>
 
           <div className="flex items-center gap-2 mt-4">
-            <span className="text-red-400 text-2xl font-bold">⭐ {movie.averageRating?.toFixed(1) || 'N/A'}</span>
+            <span className="text-red-400 text-2xl font-bold flex items-center gap-1.5">
+              <svg className="w-6 h-6 text-yellow-400" fill="currentColor" viewBox="0 0 24 24"><path d="M11.049 2.927c.3-.921 1.603-.921 1.902 0l1.519 4.674a1 1 0 00.95.69h4.915c.969 0 1.371 1.24.588 1.81l-3.976 2.888a1 1 0 00-.363 1.118l1.518 4.674c.3.922-.755 1.688-1.538 1.118l-3.976-2.888a1 1 0 00-1.176 0l-3.976 2.888c-.783.57-1.838-.197-1.538-1.118l1.518-4.674a1 1 0 00-.363-1.118l-3.976-2.888c-.784-.57-.38-1.81.588-1.81h4.914a1 1 0 00.951-.69l1.519-4.674z" /></svg>
+              {movie.averageRating?.toFixed(1) || 'N/A'}
+            </span>
             <span className="text-gray-400 text-sm">({movie.totalReviews} reviews)</span>
           </div>
 
@@ -183,18 +190,19 @@ export default function MovieDetailPage() {
           <div className="flex gap-3 mt-6 flex-wrap">
             <button
               onClick={handleWatchlist}
-              className={`px-5 py-2 rounded-lg font-semibold transition ${inWatchlist ? 'bg-red-600 hover:bg-red-700 text-white' : 'bg-red-600 hover:bg-red-700 text-black'}`}
+              className={`px-5 py-2 rounded-lg font-semibold transition ${inWatchlist ? 'bg-red-600 hover:bg-red-500 text-white' : 'bg-red-600 hover:bg-red-500 text-white'}`}
             >
               {inWatchlist ? '✓ In Watchlist' : '+ Add to Watchlist'}
             </button>
             {movie.streamingUrl && (
               <a href={movie.streamingUrl} target="_blank" rel="noreferrer" className="px-5 py-2 rounded-lg bg-red-700 hover:bg-red-600 text-white font-semibold transition flex items-center gap-2">
-                ▶ Watch Now
+                <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M8 5v14l11-7z" /></svg>
+                Watch Now
               </a>
             )}
             {movie.trailerUrl && (
               <a href={movie.trailerUrl} target="_blank" rel="noreferrer" className="px-5 py-2 rounded-lg bg-zinc-800 hover:bg-zinc-700 text-white transition">
-                🎬 Watch Trailer
+                Watch Trailer
               </a>
             )}
           </div>
@@ -230,7 +238,7 @@ export default function MovieDetailPage() {
                   onChange={(e) => setReviewForm({ ...reviewForm, rating: Number(e.target.value) })}
                   className="bg-zinc-900 text-white border border-zinc-800 rounded px-3 py-2"
                 >
-                  {[1,2,3,4,5].map((r) => <option key={r} value={r}>{r} ⭐</option>)}
+                  {[1,2,3,4,5].map((r) => <option key={r} value={r}>{r} / 5</option>)}
                 </select>
               </div>
               <label className="flex items-center gap-2 text-gray-300 text-sm cursor-pointer">
@@ -297,9 +305,13 @@ export default function MovieDetailPage() {
                     <h3 className="font-bold text-white text-lg">{review.title}</h3>
                     <p className="text-gray-400 text-sm">{review.user.name} • {new Date(review.createdAt).toLocaleDateString()}</p>
                   </div>
-                  <span className="text-red-400 font-bold text-xl">{'⭐'.repeat(review.rating)}</span>
+                  <span className="flex items-center gap-0.5">
+                    {Array.from({ length: review.rating }).map((_, i) => (
+                      <svg key={i} className="w-4 h-4 text-yellow-400" fill="currentColor" viewBox="0 0 24 24"><path d="M11.049 2.927c.3-.921 1.603-.921 1.902 0l1.519 4.674a1 1 0 00.95.69h4.915c.969 0 1.371 1.24.588 1.81l-3.976 2.888a1 1 0 00-.363 1.118l1.518 4.674c.3.922-.755 1.688-1.538 1.118l-3.976-2.888a1 1 0 00-1.176 0l-3.976 2.888c-.783.57-1.838-.197-1.538-1.118l1.518-4.674a1 1 0 00-.363-1.118l-3.976-2.888c-.784-.57-.38-1.81.588-1.81h4.914a1 1 0 00.951-.69l1.519-4.674z" /></svg>
+                    ))}
+                  </span>
                 </div>
-                {review.spoiler && <p className="text-red-400 text-xs mb-2">⚠ Spoiler Warning</p>}
+                {review.spoiler && <p className="text-red-400 text-xs mb-2 font-semibold">Spoiler Warning</p>}
                 {review.tags && review.tags.length > 0 && (
                   <div className="flex flex-wrap gap-1.5 mb-3">
                     {review.tags.map((tag) => (
@@ -314,14 +326,14 @@ export default function MovieDetailPage() {
                     onClick={() => handleLike(review.id)}
                     className={`flex items-center gap-1.5 text-sm font-medium transition px-3 py-1.5 rounded-lg ${likedReviews.has(review.id) ? 'bg-red-600/20 text-red-400' : 'bg-zinc-800 text-gray-400 hover:text-red-400'}`}
                   >
-                    <span>{likedReviews.has(review.id) ? '❤️' : '🤍'}</span>
+                    <svg className={`w-4 h-4 ${likedReviews.has(review.id) ? 'text-red-400' : 'text-gray-500'}`} fill={likedReviews.has(review.id) ? 'currentColor' : 'none'} viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" /></svg>
                     <span>{likeCounts[review.id] ?? 0}</span>
                   </button>
                   <button
                     onClick={() => loadComments(review.id)}
                     className="text-sm text-gray-400 hover:text-red-400 transition"
                   >
-                    💬 {expandedReview === review.id ? 'Hide' : 'Show'} Comments ({review._count?.comments || 0})
+                    {expandedReview === review.id ? 'Hide' : 'Show'} Comments ({review._count?.comments || 0})
                   </button>
                 </div>
 
@@ -349,7 +361,7 @@ export default function MovieDetailPage() {
                         />
                         <button
                           onClick={() => handleComment(review.id)}
-                          className="bg-red-600 text-black px-4 py-2 rounded text-sm font-semibold hover:bg-red-700 transition"
+                          className="bg-red-600 text-white px-4 py-2 rounded text-sm font-semibold hover:bg-red-700 transition"
                         >
                           Post
                         </button>

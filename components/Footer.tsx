@@ -14,8 +14,9 @@ export default function Footer() {
 
           {/* Brand */}
           <div className="md:col-span-1">
-            <Link href="/" className="inline-block mb-4 hover:opacity-80 transition">
+            <Link href="/" className="inline-flex items-center gap-2.5 mb-4 hover:opacity-80 transition">
               <img src="/logo.svg" alt="Recape Movie" className="h-12" />
+              <span className="text-2xl font-extrabold text-white tracking-tight">Rec<span className="text-red-500">ape</span></span>
             </Link>
             <p className="text-gray-500 text-sm leading-relaxed mb-4">
               Your ultimate destination for discovering, rating, and reviewing movies and TV series.
@@ -49,7 +50,7 @@ export default function Footer() {
               ].map((l) => (
                 <li key={l.href}>
                   <Link href={l.href} className="text-gray-500 hover:text-red-400 transition text-sm flex items-center gap-1.5">
-                    <span className="text-red-600 text-xs">›</span> {l.label}
+                    <span className="text-red-500 text-xs">›</span> {l.label}
                   </Link>
                 </li>
               ))}
@@ -63,7 +64,7 @@ export default function Footer() {
               {GENRES.map((g) => (
                 <li key={g}>
                   <Link href={`/movies?genre=${encodeURIComponent(g)}`} className="text-gray-500 hover:text-red-400 transition text-sm flex items-center gap-1.5">
-                    <span className="text-red-600 text-xs">›</span> {g}
+                    <span className="text-red-500 text-xs">›</span> {g}
                   </Link>
                 </li>
               ))}
@@ -84,12 +85,12 @@ export default function Footer() {
             </Link>
             <div className="mt-6 space-y-1.5">
               {[
-                { icon: '🎬', text: '500+ Movies & Series' },
-                { icon: '⭐', text: '2K+ Community Reviews' },
-                { icon: '👥', text: '1K+ Active Members' },
-              ].map((s) => (
-                <p key={s.text} className="text-gray-600 text-xs flex items-center gap-2">
-                  <span>{s.icon}</span> {s.text}
+                '500+ Movies & Series',
+                '2K+ Community Reviews',
+                '1K+ Active Members',
+              ].map((text) => (
+                <p key={text} className="text-gray-600 text-xs flex items-center gap-2">
+                  <span className="w-1 h-1 bg-red-600 rounded-full" /> {text}
                 </p>
               ))}
             </div>
@@ -100,7 +101,7 @@ export default function Footer() {
       {/* Bottom bar */}
       <div className="border-t border-zinc-800/60">
         <div className="max-w-7xl mx-auto px-4 py-4 flex flex-col sm:flex-row items-center justify-between gap-3 text-xs text-gray-600">
-          <p>© {new Date().getFullYear()} <span className="text-red-500 font-semibold">Recape</span> Movie. All rights reserved.</p>
+          <p>© {new Date().getFullYear()} <span className="text-red-400 font-semibold">Recape</span> Movie. All rights reserved.</p>
           <div className="flex gap-4">
             <Link href="/about" className="hover:text-gray-400 transition">About</Link>
             <span>·</span>

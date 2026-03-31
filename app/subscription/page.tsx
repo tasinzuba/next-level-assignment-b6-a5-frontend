@@ -6,6 +6,7 @@ import toast from 'react-hot-toast';
 import api from '@/lib/api';
 import { useAuthStore } from '@/store/authStore';
 import { Subscription } from '@/types';
+import MovingBorderCard from '@/components/MovingBorderCard';
 
 const PLANS = [
   {
@@ -24,8 +25,8 @@ const PLANS = [
     price: '$79.99',
     period: 'per year',
     features: ['Everything in Monthly', '4K Ultra HD streaming', 'Download for offline viewing', 'Early access to new titles', 'Save 33% vs monthly'],
-    color: 'border-purple-500',
-    btnColor: 'bg-purple-600 hover:bg-purple-700',
+    color: 'border-red-500',
+    btnColor: 'bg-red-600 hover:bg-red-700',
   },
 ];
 
@@ -127,9 +128,9 @@ function SubscriptionContent() {
           const isPaying = paying === plan.id;
 
           return (
-            <div key={plan.id} className={`bg-zinc-950 border-2 ${plan.color} rounded-xl p-7 flex flex-col relative`}>
+            <MovingBorderCard key={plan.id} className="bg-zinc-950 p-7 flex flex-col" duration={plan.popular ? 2000 : 3000}>
               {plan.popular && (
-                <span className="absolute -top-3 left-1/2 -translate-x-1/2 bg-red-600 text-white text-xs font-bold px-3 py-1 rounded-full">
+                <span className="absolute -top-3 left-1/2 -translate-x-1/2 bg-red-600 text-white text-xs font-bold px-3 py-1 rounded-full z-20">
                   Most Popular
                 </span>
               )}
@@ -169,7 +170,7 @@ function SubscriptionContent() {
                   )}
                 </button>
               )}
-            </div>
+            </MovingBorderCard>
           );
         })}
       </div>

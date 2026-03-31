@@ -26,7 +26,11 @@ export default function HomeSidebar({ latestUpdates }: { latestUpdates: Movie[] 
                   {m.posterUrl ? (
                     <img src={m.posterUrl} alt={m.title} className="w-full h-full object-cover" />
                   ) : (
-                    <div className="w-full h-full flex items-center justify-center text-xl">🎬</div>
+                    <div className="w-full h-full flex items-center justify-center">
+                      <svg className="w-6 h-6 text-zinc-700" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
+                        <path strokeLinecap="round" strokeLinejoin="round" d="M7 4v16M17 4v16M3 8h4m10 0h4M3 12h18M3 16h4m10 0h4M4 20h16a1 1 0 001-1V5a1 1 0 00-1-1H4a1 1 0 00-1 1v14a1 1 0 001 1z" />
+                      </svg>
+                    </div>
                   )}
                 </div>
                 <div className="flex-1 min-w-0 py-0.5">
@@ -57,7 +61,7 @@ export default function HomeSidebar({ latestUpdates }: { latestUpdates: Movie[] 
                 href={`/movies?genre=${encodeURIComponent(genre)}`}
                 className="flex items-center gap-2 px-4 py-2 text-gray-300 hover:text-white hover:bg-zinc-900 transition text-sm group"
               >
-                <span className="text-red-500 text-xs">›</span>
+                <span className="text-red-400 text-xs">›</span>
                 {genre}
               </Link>
             </li>

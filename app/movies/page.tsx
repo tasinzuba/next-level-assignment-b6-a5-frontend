@@ -69,8 +69,8 @@ function MoviesContent() {
         <div className="flex bg-zinc-900 p-1 rounded-xl gap-1">
           {[
             { val: '', label: 'All' },
-            { val: 'MOVIE', label: '🎥 Movies' },
-            { val: 'SERIES', label: '📺 Series' },
+            { val: 'MOVIE', label: 'Movies' },
+            { val: 'SERIES', label: 'Series' },
           ].map((t) => (
             <button
               key={t.val}
@@ -150,7 +150,9 @@ function MoviesContent() {
         </>
       ) : (
         <div className="text-center py-20">
-          <p className="text-5xl mb-4">🎬</p>
+          <svg className="w-16 h-16 text-zinc-700 mx-auto mb-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
+            <path strokeLinecap="round" strokeLinejoin="round" d="M7 4v16M17 4v16M3 8h4m10 0h4M3 12h18M3 16h4m10 0h4M4 20h16a1 1 0 001-1V5a1 1 0 00-1-1H4a1 1 0 00-1 1v14a1 1 0 001 1z" />
+          </svg>
           <p className="text-gray-400 text-lg">No results found.</p>
           <p className="text-gray-600 text-sm mt-2">Try different filters or search terms.</p>
         </div>

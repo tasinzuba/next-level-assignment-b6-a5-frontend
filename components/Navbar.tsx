@@ -103,7 +103,7 @@ export default function Navbar() {
   // Hover dropdown component
   const HoverDropdown = ({ label, children }: { label: string; children: React.ReactNode }) => (
     <div className="relative group">
-      <button className={`flex items-center px-3 py-2 text-sm font-medium rounded-md transition text-gray-300 hover:text-white hover:bg-zinc-800/40 group-hover:text-white group-hover:bg-zinc-800/40`}>
+      <button className={`cosmic-nav-link flex items-center px-3 py-2 text-sm font-medium rounded-md transition text-gray-300 hover:text-white hover:bg-zinc-800/40 group-hover:text-white group-hover:bg-zinc-800/40`}>
         {label}
         <svg className="w-3 h-3 ml-1 transition-transform group-hover:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
           <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" />
@@ -116,15 +116,16 @@ export default function Navbar() {
   );
 
   return (
-    <nav ref={navRef} className={`sticky top-0 z-50 transition-all duration-300 ${scrolled ? 'bg-zinc-950/97 backdrop-blur-md shadow-lg shadow-black/50' : 'bg-zinc-950'} border-b border-zinc-800/80`}>
-      {/* Red accent line */}
+    <nav ref={navRef} suppressHydrationWarning className={`sticky top-0 z-50 transition-all duration-300 ${scrolled ? 'bg-zinc-950/97 backdrop-blur-md shadow-lg shadow-black/50' : 'bg-zinc-950'} border-b border-zinc-800/80`}>
+      {/* Accent line */}
       <div className="h-0.5 bg-gradient-to-r from-transparent via-red-600 to-transparent" />
 
       <div className="max-w-7xl mx-auto px-4 h-14 flex items-center gap-4">
 
         {/* Logo — left */}
-        <Link href="/" className="flex-shrink-0 hover:opacity-85 transition">
+        <Link href="/" className="flex-shrink-0 hover:opacity-85 transition flex items-center gap-2">
           <img src="/logo.svg" alt="Recape" className="h-9" />
+          <span className="text-xl font-extrabold text-white tracking-tight">Rec<span className="text-red-500">ape</span></span>
         </Link>
 
         {/* ── Desktop Nav — CENTER ── */}
@@ -182,16 +183,16 @@ export default function Navbar() {
             </div>
           </HoverDropdown>
 
-          <Link href="/about" className={`px-3 py-2 text-sm font-medium rounded-md transition ${pathname === '/about' ? 'text-white bg-zinc-800/60' : 'text-gray-300 hover:text-white hover:bg-zinc-800/40'}`}>
+          <Link href="/about" className={`cosmic-nav-link px-3 py-2 text-sm font-medium rounded-md transition ${pathname === '/about' ? 'text-white bg-zinc-800/60' : 'text-gray-300 hover:text-white hover:bg-zinc-800/40'}`}>
             About
           </Link>
 
           {user && (
             <>
-              <Link href="/watchlist" className={`px-3 py-2 text-sm font-medium rounded-md transition ${pathname === '/watchlist' ? 'text-white bg-zinc-800/60' : 'text-gray-300 hover:text-white hover:bg-zinc-800/40'}`}>
+              <Link href="/watchlist" className={`cosmic-nav-link px-3 py-2 text-sm font-medium rounded-md transition ${pathname === '/watchlist' ? 'text-white bg-zinc-800/60' : 'text-gray-300 hover:text-white hover:bg-zinc-800/40'}`}>
                 Watchlist
               </Link>
-              <Link href="/subscription" className={`px-3 py-2 text-sm font-medium rounded-md transition ${pathname === '/subscription' ? 'text-white bg-zinc-800/60' : 'text-gray-300 hover:text-white hover:bg-zinc-800/40'}`}>
+              <Link href="/subscription" className={`cosmic-nav-link px-3 py-2 text-sm font-medium rounded-md transition ${pathname === '/subscription' ? 'text-white bg-zinc-800/60' : 'text-gray-300 hover:text-white hover:bg-zinc-800/40'}`}>
                 Plans
               </Link>
             </>
@@ -200,7 +201,7 @@ export default function Navbar() {
           {/* Admin hover dropdown */}
           {user?.role === 'ADMIN' && (
             <div className="relative group">
-              <button className="flex items-center gap-1.5 px-3 py-2 text-sm font-medium rounded-md transition text-gray-300 hover:text-white hover:bg-zinc-800/40 group-hover:text-white group-hover:bg-zinc-800/40">
+              <button className="cosmic-nav-link flex items-center gap-1.5 px-3 py-2 text-sm font-medium rounded-md transition text-gray-300 hover:text-white hover:bg-zinc-800/40 group-hover:text-white group-hover:bg-zinc-800/40">
                 <span className="w-1.5 h-1.5 bg-red-500 rounded-full animate-pulse" />
                 Admin
                 <svg className="w-3 h-3 ml-0.5 transition-transform group-hover:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
@@ -264,7 +265,7 @@ export default function Navbar() {
                     {r.thumbnail ? (
                       <img src={r.thumbnail} alt={r.title} className="w-8 h-11 object-cover rounded border border-zinc-700 flex-shrink-0" />
                     ) : (
-                      <div className="w-8 h-11 bg-zinc-800 rounded border border-zinc-700 flex items-center justify-center text-sm flex-shrink-0">🎬</div>
+                      <div className="w-8 h-11 bg-zinc-800 rounded border border-zinc-700 flex-shrink-0" />
                     )}
                     <div className="min-w-0">
                       <p className="text-white text-sm font-medium truncate">{r.title}</p>
@@ -319,10 +320,10 @@ export default function Navbar() {
             </div>
           ) : (
             <>
-              <Link href="/login" className="px-4 py-1.5 text-sm text-gray-300 hover:text-white border border-zinc-700 hover:border-zinc-500 rounded-lg transition">
+              <Link href="/login" className="cosmic-nav-link px-4 py-1.5 text-sm text-gray-300 hover:text-white border border-zinc-700 hover:border-red-500/50 rounded-lg transition">
                 Login
               </Link>
-              <Link href="/register" className="px-4 py-1.5 text-sm font-semibold text-white bg-red-600 hover:bg-red-500 rounded-lg transition shadow-md shadow-red-900/30">
+              <Link href="/register" className="cosmic-nav-link px-4 py-1.5 text-sm font-semibold text-white bg-red-600 hover:bg-red-500 rounded-lg transition shadow-md shadow-red-900/30">
                 Sign Up
               </Link>
             </>
@@ -349,12 +350,12 @@ export default function Navbar() {
           </form>
 
           {[
-            { href: '/movies', label: '🎬 All Movies' },
-            { href: '/movies?mediaType=MOVIE', label: '🎥 Movies' },
-            { href: '/movies?mediaType=SERIES', label: '📺 Series' },
-            { href: '/movies?priceType=FREE', label: '🆓 Free' },
-            { href: '/movies?priceType=PREMIUM', label: '💎 Premium' },
-            { href: '/about', label: 'ℹ️ About' },
+            { href: '/movies', label: 'All Movies' },
+            { href: '/movies?mediaType=MOVIE', label: 'Movies' },
+            { href: '/movies?mediaType=SERIES', label: 'Series' },
+            { href: '/movies?priceType=FREE', label: 'Free' },
+            { href: '/movies?priceType=PREMIUM', label: 'Premium' },
+            { href: '/about', label: 'About' },
           ].map((l) => (
             <Link key={l.href} href={l.href} className="flex items-center px-3 py-2.5 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-zinc-800/60 transition">{l.label}</Link>
           ))}
@@ -371,9 +372,9 @@ export default function Navbar() {
           {user && (
             <div className="border-t border-zinc-800 pt-2 mt-2">
               {[
-                { href: '/watchlist', label: '📋 Watchlist' },
-                { href: '/my-reviews', label: '⭐ My Reviews' },
-                { href: '/subscription', label: '💎 Plans' },
+                { href: '/watchlist', label: 'Watchlist' },
+                { href: '/my-reviews', label: 'My Reviews' },
+                { href: '/subscription', label: 'Plans' },
               ].map((l) => (
                 <Link key={l.href} href={l.href} className="flex items-center px-3 py-2.5 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-zinc-800/60 transition">{l.label}</Link>
               ))}
@@ -384,10 +385,10 @@ export default function Navbar() {
             <div className="border-t border-zinc-800 pt-2 mt-2">
               <p className="px-3 py-1 text-xs text-gray-600 uppercase tracking-widest font-semibold">Admin</p>
               {[
-                { href: '/admin', label: '📊 Dashboard' },
-                { href: '/admin/movies', label: '🎬 Movies' },
-                { href: '/admin/reviews', label: '⭐ Reviews' },
-                { href: '/admin/users', label: '👥 Users' },
+                { href: '/admin', label: 'Dashboard' },
+                { href: '/admin/movies', label: 'Movies' },
+                { href: '/admin/reviews', label: 'Reviews' },
+                { href: '/admin/users', label: 'Users' },
               ].map((l) => (
                 <Link key={l.href} href={l.href} className={`flex items-center px-3 py-2.5 rounded-lg text-sm transition ${pathname === l.href ? 'text-red-400 bg-zinc-800/60' : 'text-gray-400 hover:text-red-400 hover:bg-zinc-800/60'}`}>{l.label}</Link>
               ))}

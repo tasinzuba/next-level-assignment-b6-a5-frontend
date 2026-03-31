@@ -59,7 +59,7 @@ export default function WatchlistPage() {
       {watchlist.length === 0 ? (
         <div className="text-center py-20">
           <p className="text-gray-400 text-xl mb-4">Your watchlist is empty.</p>
-          <Link href="/movies" className="bg-red-600 hover:bg-red-700 text-black font-bold px-6 py-3 rounded-lg transition">
+          <Link href="/movies" className="bg-red-600 hover:bg-red-500 text-white font-bold px-6 py-3 rounded-lg transition">
             Browse Movies
           </Link>
         </div>
@@ -73,10 +73,14 @@ export default function WatchlistPage() {
                     {item.movie.posterUrl ? (
                       <img src={item.movie.posterUrl} alt={item.movie.title} className="w-full h-full object-cover group-hover:scale-105 transition duration-300" />
                     ) : (
-                      <div className="w-full h-full flex items-center justify-center text-4xl">🎬</div>
+                      <div className="w-full h-full flex items-center justify-center">
+                        <svg className="w-10 h-10 text-zinc-700" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
+                          <path strokeLinecap="round" strokeLinejoin="round" d="M7 4v16M17 4v16M3 8h4m10 0h4M3 12h18M3 16h4m10 0h4M4 20h16a1 1 0 001-1V5a1 1 0 00-1-1H4a1 1 0 00-1 1v14a1 1 0 001 1z" />
+                        </svg>
+                      </div>
                     )}
                     <div className="absolute top-2 right-2 bg-black/70 text-red-400 text-xs font-bold px-2 py-1 rounded">
-                      ⭐ {item.movie.averageRating?.toFixed(1) || 'N/A'}
+                      {item.movie.averageRating?.toFixed(1) || 'N/A'}
                     </div>
                   </div>
                   <div className="p-3">

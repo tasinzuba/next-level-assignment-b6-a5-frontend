@@ -104,7 +104,11 @@ export default function MovieCarousel({ movies }: { movies: Movie[] }) {
                       className="w-full h-full object-cover group-hover/card:scale-105 transition duration-300"
                     />
                   ) : (
-                    <div className="w-full h-full flex items-center justify-center text-gray-500 text-4xl">🎬</div>
+                    <div className="w-full h-full flex items-center justify-center">
+                      <svg className="w-10 h-10 text-zinc-700" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
+                        <path strokeLinecap="round" strokeLinejoin="round" d="M7 4v16M17 4v16M3 8h4m10 0h4M3 12h18M3 16h4m10 0h4M4 20h16a1 1 0 001-1V5a1 1 0 00-1-1H4a1 1 0 00-1 1v14a1 1 0 001 1z" />
+                      </svg>
+                    </div>
                   )}
                   <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-transparent to-transparent" />
 
@@ -134,13 +138,17 @@ export default function MovieCarousel({ movies }: { movies: Movie[] }) {
 
       <button
         onClick={() => { prev(); startAuto(); }}
-        className="absolute left-0 top-1/2 -translate-y-1/2 -translate-x-2 z-10 w-8 h-8 bg-black/90 border border-zinc-600 hover:border-red-500 rounded-full flex items-center justify-center text-white opacity-0 group-hover:opacity-100 transition text-lg"
-      >◀</button>
+        className="absolute left-0 top-1/2 -translate-y-1/2 -translate-x-2 z-10 w-8 h-8 bg-black/90 border border-zinc-700 hover:border-red-500 rounded-full flex items-center justify-center text-white opacity-0 group-hover:opacity-100 transition text-lg"
+      >
+        <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}><path strokeLinecap="round" strokeLinejoin="round" d="M15 19l-7-7 7-7" /></svg>
+      </button>
 
       <button
         onClick={() => { next(); startAuto(); }}
-        className="absolute right-0 top-1/2 -translate-y-1/2 translate-x-2 z-10 w-8 h-8 bg-black/90 border border-zinc-600 hover:border-red-500 rounded-full flex items-center justify-center text-white opacity-0 group-hover:opacity-100 transition text-lg"
-      >▶</button>
+        className="absolute right-0 top-1/2 -translate-y-1/2 translate-x-2 z-10 w-8 h-8 bg-black/90 border border-zinc-700 hover:border-red-500 rounded-full flex items-center justify-center text-white opacity-0 group-hover:opacity-100 transition"
+      >
+        <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}><path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" /></svg>
+      </button>
     </div>
   );
 }

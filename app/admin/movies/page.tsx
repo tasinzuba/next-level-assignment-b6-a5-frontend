@@ -145,8 +145,8 @@ export default function AdminMoviesPage() {
               <div>
                 <label className="block text-xs text-gray-400 mb-1.5 font-semibold uppercase tracking-wide">Media Type</label>
                 <select value={form.mediaType} onChange={(e) => setForm({ ...form, mediaType: e.target.value })} className={inputClass}>
-                  <option value="MOVIE">🎥 Movie</option>
-                  <option value="SERIES">📺 Series</option>
+                  <option value="MOVIE">Movie</option>
+                  <option value="SERIES">Series</option>
                 </select>
               </div>
               <div>
@@ -208,7 +208,7 @@ export default function AdminMoviesPage() {
         </div>
       ) : filtered.length === 0 ? (
         <div className="text-center py-16 text-gray-500">
-          <p className="text-4xl mb-3">🎬</p>
+          <svg className="w-12 h-12 text-zinc-700 mx-auto mb-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}><path strokeLinecap="round" strokeLinejoin="round" d="M7 4v16M17 4v16M3 8h4m10 0h4M3 12h18M3 16h4m10 0h4M4 20h16a1 1 0 001-1V5a1 1 0 00-1-1H4a1 1 0 00-1 1v14a1 1 0 001 1z" /></svg>
           <p>{search ? 'No movies match your search.' : 'No movies yet. Add your first movie!'}</p>
         </div>
       ) : (
@@ -232,7 +232,7 @@ export default function AdminMoviesPage() {
                         {movie.posterUrl ? (
                           <img src={movie.posterUrl} alt={movie.title} className="w-9 h-12 object-cover rounded border border-zinc-700 flex-shrink-0" />
                         ) : (
-                          <div className="w-9 h-12 bg-zinc-800 rounded border border-zinc-700 flex items-center justify-center text-sm flex-shrink-0">🎬</div>
+                          <div className="w-9 h-12 bg-zinc-800 rounded border border-zinc-700 flex-shrink-0" />
                         )}
                         <div>
                           <p className="font-semibold text-white text-sm">{movie.title}</p>

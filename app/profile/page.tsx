@@ -120,7 +120,7 @@ export default function ProfilePage() {
               className="w-full bg-zinc-900 text-white border border-zinc-800 rounded-lg px-4 py-3 focus:outline-none focus:border-red-600"
             />
           </div>
-          <button type="submit" disabled={saving} className="bg-red-600 hover:bg-red-700 text-black font-bold px-6 py-2 rounded-lg transition disabled:opacity-50">
+          <button type="submit" disabled={saving} className="bg-red-600 hover:bg-red-700 text-white font-bold px-6 py-2 rounded-lg transition disabled:opacity-50">
             {saving ? 'Saving...' : 'Save Changes'}
           </button>
         </form>
