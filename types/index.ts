@@ -68,3 +68,12 @@ export interface DashboardStats {
   pendingReviews: number;
   activeSubscriptions: number;
 }
+
+export interface ChartData {
+  genreDistribution: { name: string; value: number }[];
+  userGrowth: { month: string; users: number }[];
+  reviewStatus: { name: string; value: number; color: string }[];
+  reviewGrowth: { month: string; reviews: number }[];
+  mediaTypeDistribution: { name: string; value: number; color: string }[];
+  priceDistribution: { name: string; value: number; color: string }[];
+}

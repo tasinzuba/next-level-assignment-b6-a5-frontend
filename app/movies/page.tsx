@@ -59,14 +59,14 @@ function MoviesContent() {
 
   const pageTitle = mediaType === 'SERIES' ? 'All Series' : mediaType === 'MOVIE' ? 'All Movies' : 'Movies & Series';
 
-  const selectClass = "bg-zinc-900 text-white border border-zinc-800 rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-red-600 cursor-pointer";
+  const selectClass = "bg-gray-100 dark:bg-zinc-900 text-gray-900 dark:text-white border border-gray-300 dark:border-zinc-800 rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-red-600 cursor-pointer";
 
   return (
     <div className="max-w-7xl mx-auto px-4 py-10">
       <div className="flex items-center justify-between mb-6 flex-wrap gap-3">
-        <h1 className="text-3xl font-bold text-white">{pageTitle}</h1>
+        <h1 className="text-3xl font-bold text-gray-900 dark:text-white">{pageTitle}</h1>
         {/* Media type tabs */}
-        <div className="flex bg-zinc-900 p-1 rounded-xl gap-1">
+        <div className="flex bg-gray-100 dark:bg-zinc-900 p-1 rounded-xl gap-1">
           {[
             { val: '', label: 'All' },
             { val: 'MOVIE', label: 'Movies' },
@@ -75,7 +75,7 @@ function MoviesContent() {
             <button
               key={t.val}
               onClick={() => { setMediaType(t.val); setPage(1); }}
-              className={`px-4 py-1.5 rounded-lg text-sm font-semibold transition ${mediaType === t.val ? 'bg-red-600 text-white' : 'text-gray-400 hover:text-white'}`}
+              className={`px-4 py-1.5 rounded-lg text-sm font-semibold transition ${mediaType === t.val ? 'bg-red-600 text-white' : 'text-gray-500 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white'}`}
             >
               {t.label}
             </button>
@@ -84,13 +84,13 @@ function MoviesContent() {
       </div>
 
       {/* Filters */}
-      <div className="flex flex-wrap gap-3 mb-8 bg-zinc-950 border border-zinc-800 rounded-xl p-4">
+      <div className="flex flex-wrap gap-3 mb-8 bg-gray-50 dark:bg-zinc-950 border border-gray-200 dark:border-zinc-800 rounded-xl p-4">
         <input
           type="text"
           placeholder="Search title, director, cast..."
           value={search}
           onChange={(e) => { setSearch(e.target.value); setPage(1); }}
-          className="bg-zinc-900 text-white border border-zinc-800 rounded-lg px-4 py-2 text-sm focus:outline-none focus:border-red-600 flex-1 min-w-[200px]"
+          className="bg-gray-100 dark:bg-zinc-900 text-gray-900 dark:text-white border border-gray-300 dark:border-zinc-800 rounded-lg px-4 py-2 text-sm focus:outline-none focus:border-red-600 flex-1 min-w-[200px]"
         />
         <select value={genre} onChange={(e) => { setGenre(e.target.value); setPage(1); }} className={selectClass}>
           <option value="">All Genres</option>
@@ -115,7 +115,7 @@ function MoviesContent() {
         {(search || genre || priceType || mediaType) && (
           <button
             onClick={() => { setSearch(''); setGenre(''); setPriceType(''); setMediaType(''); setPage(1); router.push('/movies'); }}
-            className="px-3 py-2 text-sm text-gray-400 hover:text-white border border-zinc-700 hover:border-zinc-500 rounded-lg transition"
+            className="px-3 py-2 text-sm text-gray-500 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white border border-gray-300 dark:border-zinc-700 hover:border-gray-400 dark:hover:border-zinc-500 rounded-lg transition"
           >
             Clear ✕
           </button>
@@ -123,28 +123,28 @@ function MoviesContent() {
       </div>
 
       {loading ? (
-        <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-4">
+        <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-4 gap-4">
           {Array.from({ length: 12 }).map((_, i) => (
-            <div key={i} className="bg-zinc-900 rounded-xl aspect-[2/3] animate-pulse" />
+            <div key={i} className="bg-gray-200 dark:bg-zinc-900 rounded-xl aspect-[2/3] animate-pulse" />
           ))}
         </div>
       ) : movies.length > 0 ? (
         <>
           <p className="text-gray-500 text-sm mb-4">{totalPages > 1 ? `Page ${page} of ${totalPages}` : `${movies.length} result${movies.length !== 1 ? 's' : ''}`}</p>
-          <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-4">
+          <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-4 gap-4">
             {movies.map((movie) => <MovieCard key={movie.id} movie={movie} />)}
           </div>
           {totalPages > 1 && (
             <div className="flex justify-center gap-2 mt-10">
-              <button onClick={() => setPage((p) => Math.max(1, p - 1))} disabled={page === 1} className="px-4 py-2 bg-zinc-900 rounded-lg text-sm text-gray-300 disabled:opacity-40 hover:bg-zinc-800 transition">← Prev</button>
+              <button onClick={() => setPage((p) => Math.max(1, p - 1))} disabled={page === 1} className="px-4 py-2 bg-gray-100 dark:bg-zinc-900 rounded-lg text-sm text-gray-600 dark:text-gray-300 disabled:opacity-40 hover:bg-gray-200 dark:hover:bg-zinc-800 transition">← Prev</button>
               {Array.from({ length: Math.min(totalPages, 5) }, (_, i) => {
                 const p = page <= 3 ? i + 1 : page - 2 + i;
                 if (p < 1 || p > totalPages) return null;
                 return (
-                  <button key={p} onClick={() => setPage(p)} className={`px-4 py-2 rounded-lg text-sm transition ${p === page ? 'bg-red-600 text-white' : 'bg-zinc-900 text-gray-300 hover:bg-zinc-800'}`}>{p}</button>
+                  <button key={p} onClick={() => setPage(p)} className={`px-4 py-2 rounded-lg text-sm transition ${p === page ? 'bg-red-600 text-white' : 'bg-gray-100 dark:bg-zinc-900 text-gray-600 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-zinc-800'}`}>{p}</button>
                 );
               })}
-              <button onClick={() => setPage((p) => Math.min(totalPages, p + 1))} disabled={page === totalPages} className="px-4 py-2 bg-zinc-900 rounded-lg text-sm text-gray-300 disabled:opacity-40 hover:bg-zinc-800 transition">Next →</button>
+              <button onClick={() => setPage((p) => Math.min(totalPages, p + 1))} disabled={page === totalPages} className="px-4 py-2 bg-gray-100 dark:bg-zinc-900 rounded-lg text-sm text-gray-600 dark:text-gray-300 disabled:opacity-40 hover:bg-gray-200 dark:hover:bg-zinc-800 transition">Next →</button>
             </div>
           )}
         </>
@@ -153,7 +153,7 @@ function MoviesContent() {
           <svg className="w-16 h-16 text-zinc-700 mx-auto mb-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
             <path strokeLinecap="round" strokeLinejoin="round" d="M7 4v16M17 4v16M3 8h4m10 0h4M3 12h18M3 16h4m10 0h4M4 20h16a1 1 0 001-1V5a1 1 0 00-1-1H4a1 1 0 00-1 1v14a1 1 0 001 1z" />
           </svg>
-          <p className="text-gray-400 text-lg">No results found.</p>
+          <p className="text-gray-500 dark:text-gray-400 text-lg">No results found.</p>
           <p className="text-gray-600 text-sm mt-2">Try different filters or search terms.</p>
         </div>
       )}
@@ -163,7 +163,7 @@ function MoviesContent() {
 
 export default function MoviesPage() {
   return (
-    <Suspense fallback={<div className="max-w-7xl mx-auto px-4 py-10"><div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-4">{Array.from({length:12}).map((_,i)=><div key={i} className="bg-zinc-900 rounded-xl aspect-[2/3] animate-pulse"/>)}</div></div>}>
+    <Suspense fallback={<div className="max-w-7xl mx-auto px-4 py-10"><div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-4 gap-4">{Array.from({length:12}).map((_,i)=><div key={i} className="bg-gray-200 dark:bg-zinc-900 rounded-xl aspect-[2/3] animate-pulse"/>)}</div></div>}>
       <MoviesContent />
     </Suspense>
   );

@@ -4,6 +4,8 @@ import './globals.css';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
 import { Toaster } from 'react-hot-toast';
+import { ThemeProvider } from '@/components/ThemeProvider';
+import AIChatbot from '@/components/AIChatbot';
 
 const geist = Geist({ subsets: ['latin'] });
 
@@ -14,12 +16,15 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en" className="scroll-smooth">
-      <body className={`${geist.className} bg-black text-white min-h-screen flex flex-col`}>
-        <Navbar />
-        <main className="flex-1">{children}</main>
-        <Footer />
-        <Toaster position="top-right" toastOptions={{ style: { background: '#1a0000', color: '#fff', border: '1px solid #dc2626' } }} />
+    <html lang="en" className="scroll-smooth dark" suppressHydrationWarning>
+      <body className={`${geist.className} bg-white dark:bg-black text-gray-900 dark:text-white min-h-screen flex flex-col transition-colors duration-300`}>
+        <ThemeProvider>
+          <Navbar />
+          <main className="flex-1">{children}</main>
+          <Footer />
+          <AIChatbot />
+          <Toaster position="top-right" toastOptions={{ style: { background: 'var(--toast-bg)', color: 'var(--toast-text)', border: '1px solid var(--toast-border)' } }} />
+        </ThemeProvider>
       </body>
     </html>
   );

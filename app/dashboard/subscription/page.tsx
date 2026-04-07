@@ -58,7 +58,7 @@ function SubscriptionContent() {
       toast.error('Payment validation failed.');
     }
     // Clean up URL
-    router.replace('/subscription');
+    router.replace('/dashboard/subscription');
   }, [searchParams]);
 
   const fetchSubscription = async () => {

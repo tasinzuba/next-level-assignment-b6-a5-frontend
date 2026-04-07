@@ -32,43 +32,43 @@ export default function RegisterPage() {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center px-4 bg-gray-950">
-      <div className="w-full max-w-md bg-zinc-950 rounded-xl p-8 shadow-2xl">
-        <h1 className="text-3xl font-bold text-white mb-2 text-center">Create Account</h1>
-        <p className="text-gray-400 text-center mb-8">Join Recape Movie today</p>
+    <div className="min-h-screen flex items-center justify-center px-4 bg-gray-100 dark:bg-gray-950">
+      <div className="w-full max-w-md bg-white dark:bg-zinc-950 rounded-xl p-8 shadow-2xl">
+        <h1 className="text-3xl font-bold text-gray-900 dark:text-white mb-2 text-center">Create Account</h1>
+        <p className="text-gray-500 dark:text-gray-400 text-center mb-8">Join Recape Movie today</p>
 
         <form onSubmit={handleSubmit} className="space-y-5">
           <div>
-            <label className="block text-sm text-gray-300 mb-1">Name</label>
+            <label className="block text-sm text-gray-600 dark:text-gray-300 mb-1">Name</label>
             <input
               type="text"
               required
               value={form.name}
               onChange={(e) => setForm({ ...form, name: e.target.value })}
-              className="w-full bg-zinc-900 text-white border border-zinc-800 rounded-lg px-4 py-3 focus:outline-none focus:border-red-600"
+              className="w-full bg-gray-100 dark:bg-zinc-900 text-gray-900 dark:text-white border border-gray-300 dark:border-zinc-800 rounded-lg px-4 py-3 focus:outline-none focus:border-red-600"
               placeholder="John Doe"
             />
           </div>
           <div>
-            <label className="block text-sm text-gray-300 mb-1">Email</label>
+            <label className="block text-sm text-gray-600 dark:text-gray-300 mb-1">Email</label>
             <input
               type="email"
               required
               value={form.email}
               onChange={(e) => setForm({ ...form, email: e.target.value })}
-              className="w-full bg-zinc-900 text-white border border-zinc-800 rounded-lg px-4 py-3 focus:outline-none focus:border-red-600"
+              className="w-full bg-gray-100 dark:bg-zinc-900 text-gray-900 dark:text-white border border-gray-300 dark:border-zinc-800 rounded-lg px-4 py-3 focus:outline-none focus:border-red-600"
               placeholder="you@example.com"
             />
           </div>
           <div>
-            <label className="block text-sm text-gray-300 mb-1">Password</label>
+            <label className="block text-sm text-gray-600 dark:text-gray-300 mb-1">Password</label>
             <input
               type="password"
               required
               minLength={6}
               value={form.password}
               onChange={(e) => setForm({ ...form, password: e.target.value })}
-              className="w-full bg-zinc-900 text-white border border-zinc-800 rounded-lg px-4 py-3 focus:outline-none focus:border-red-600"
+              className="w-full bg-gray-100 dark:bg-zinc-900 text-gray-900 dark:text-white border border-gray-300 dark:border-zinc-800 rounded-lg px-4 py-3 focus:outline-none focus:border-red-600"
               placeholder="Min 6 characters"
             />
           </div>
@@ -83,16 +83,16 @@ export default function RegisterPage() {
 
         <div className="relative my-6">
           <div className="absolute inset-0 flex items-center">
-            <div className="w-full border-t border-zinc-800" />
+            <div className="w-full border-t border-gray-300 dark:border-zinc-800" />
           </div>
           <div className="relative flex justify-center text-xs">
-            <span className="bg-zinc-950 px-3 text-gray-500">or sign up with</span>
+            <span className="bg-white dark:bg-zinc-950 px-3 text-gray-500">or sign up with</span>
           </div>
         </div>
 
         <a
           href={`${process.env.NEXT_PUBLIC_API_URL?.replace('/api', '') || 'http://localhost:5000'}/api/auth/google`}
-          className="flex items-center justify-center gap-3 w-full border border-zinc-700 hover:border-zinc-600 bg-zinc-900 hover:bg-zinc-800 text-white py-3 rounded-lg transition font-medium"
+          className="flex items-center justify-center gap-3 w-full border border-gray-300 dark:border-zinc-700 hover:border-gray-400 dark:hover:border-zinc-600 bg-gray-100 dark:bg-zinc-900 hover:bg-gray-200 dark:hover:bg-zinc-800 text-gray-900 dark:text-white py-3 rounded-lg transition font-medium"
         >
           <svg className="w-5 h-5" viewBox="0 0 24 24">
             <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>
@@ -103,7 +103,7 @@ export default function RegisterPage() {
           Sign up with Google
         </a>
 
-        <p className="text-center text-gray-400 mt-6">
+        <p className="text-center text-gray-500 dark:text-gray-400 mt-6">
           Already have an account?{' '}
           <Link href="/login" className="text-red-400 hover:underline">Sign in</Link>
         </p>

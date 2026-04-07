@@ -22,7 +22,7 @@ export default function MovingBorderCard({
   href,
 }: MovingBorderCardProps) {
   const containerProps: Record<string, unknown> = {
-    className: `moving-border-card group relative p-[2px] ${containerClassName}`,
+    className: `moving-border-card group relative ${containerClassName}`,
     style: {
       borderRadius,
       '--mb-duration': `${duration}ms`,

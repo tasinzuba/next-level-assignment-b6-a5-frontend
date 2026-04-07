@@ -1,9 +1,21 @@
 @import "tailwindcss";
 
+@custom-variant dark (&:where(.dark, .dark *));
+
+:root {
+  --toast-bg: #ffffff;
+  --toast-text: #1a1a1a;
+  --toast-border: #e5e7eb;
+}
+
+.dark {
+  --toast-bg: #1a0000;
+  --toast-text: #ffffff;
+  --toast-border: #dc2626;
+}
+
 body {
   font-family: Arial, Helvetica, sans-serif;
-  background-color: #0a0a0a;
-  color: #ffffff;
 }
 
 /* ── Cosmic Button ── */
@@ -232,16 +244,23 @@ body {
 
 /* ── Moving Border Card ── */
 .moving-border-card {
-  background: #18181b;
   overflow: hidden;
   isolation: isolate;
+  background: #ffffff;
+  border: 1px solid transparent;
+}
+
+:is(.dark .moving-border-card) {
+  background: #18181b;
 }
 
 .moving-border-beam {
   position: absolute;
-  inset: 0;
+  inset: -1px;
   overflow: hidden;
   pointer-events: none;
+  border-radius: inherit;
+  z-index: 0;
 }
 
 .moving-border-beam::before {
@@ -255,19 +274,18 @@ body {
   background: conic-gradient(
     from 0deg,
     transparent 0deg,
-    transparent 260deg,
-    #ef4444 290deg,
-    #f97316 310deg,
+    transparent 240deg,
+    #ef4444 270deg,
+    #f97316 300deg,
     #ef4444 330deg,
     transparent 360deg
   );
-  opacity: 0;
-  transition: opacity 0.4s ease;
+  opacity: 0.6;
   animation: mb-spin var(--mb-duration, 3000ms) linear infinite;
 }
 
 .moving-border-card:hover .moving-border-beam::before {
-  opacity: 1;
+  opacity: 0.6;
 }
 
 @keyframes mb-spin {

@@ -37,7 +37,7 @@ export default function HeroSlider({ movies }: { movies: Movie[] }) {
   const pair = pairs[current % pairs.length] || [movies[0]];
 
   return (
-    <div className="relative w-full bg-black overflow-hidden">
+    <div className="relative w-full bg-white dark:bg-black overflow-hidden">
       {/* 2-column slide */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-0">
         {pair.map((m) => (
@@ -46,11 +46,11 @@ export default function HeroSlider({ movies }: { movies: Movie[] }) {
               <img
                 src={m.posterUrl}
                 alt={m.title}
-                className="w-full h-full object-cover group-hover:scale-105 transition duration-500"
+                className="w-full h-full object-cover"
               />
             ) : (
-              <div className="w-full h-full bg-zinc-900 flex items-center justify-center">
-                <svg className="w-16 h-16 text-zinc-700" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
+              <div className="w-full h-full bg-gray-100 dark:bg-zinc-900 flex items-center justify-center">
+                <svg className="w-16 h-16 text-gray-300 dark:text-zinc-700" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
                   <path strokeLinecap="round" strokeLinejoin="round" d="M7 4v16M17 4v16M3 8h4m10 0h4M3 12h18M3 16h4m10 0h4M4 20h16a1 1 0 001-1V5a1 1 0 00-1-1H4a1 1 0 00-1 1v14a1 1 0 001 1z" />
                 </svg>
               </div>
@@ -63,10 +63,10 @@ export default function HeroSlider({ movies }: { movies: Movie[] }) {
             </div>
             {/* bottom info */}
             <div className="absolute bottom-0 left-0 right-0 px-4 pb-4">
-              <h3 className="text-white font-bold text-lg leading-tight line-clamp-2 group-hover:text-red-400 transition">
+              <h3 className="text-gray-900 dark:text-white font-bold text-lg leading-tight line-clamp-2">
                 {m.title}
               </h3>
-              <div className="flex items-center gap-2 mt-1 text-sm text-gray-300">
+              <div className="flex items-center gap-2 mt-1 text-sm text-gray-600 dark:text-gray-300">
                 <span>{m.releaseYear}</span>
                 {m.averageRating > 0 && (
                   <span className="flex items-center gap-1 text-yellow-400 font-semibold">
@@ -84,11 +84,11 @@ export default function HeroSlider({ movies }: { movies: Movie[] }) {
         <>
           <button
             onClick={prev}
-            className="absolute left-2 top-1/2 -translate-y-1/2 z-20 w-9 h-9 bg-black/70 hover:bg-black border border-zinc-700 rounded-full flex items-center justify-center text-white text-lg transition"
+            className="absolute left-2 top-1/2 -translate-y-1/2 z-20 w-9 h-9 bg-white/70 dark:bg-black/70 hover:bg-white dark:hover:bg-black border border-gray-300 dark:border-zinc-700 rounded-full flex items-center justify-center text-gray-900 dark:text-white text-lg transition"
           >‹</button>
           <button
             onClick={next}
-            className="absolute right-2 top-1/2 -translate-y-1/2 z-20 w-9 h-9 bg-black/70 hover:bg-black border border-zinc-700 rounded-full flex items-center justify-center text-white text-lg transition"
+            className="absolute right-2 top-1/2 -translate-y-1/2 z-20 w-9 h-9 bg-white/70 dark:bg-black/70 hover:bg-white dark:hover:bg-black border border-gray-300 dark:border-zinc-700 rounded-full flex items-center justify-center text-gray-900 dark:text-white text-lg transition"
           >›</button>
         </>
       )}
